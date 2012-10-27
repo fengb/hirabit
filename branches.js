@@ -13,6 +13,10 @@ var Branches = {
         case '>':
           output[i + 1] = '>';
           break;
+        case 'X':
+          output[i] = '<';
+          output[i + 1] = '>';
+          break;
       }
     }
 
