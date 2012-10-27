@@ -5,7 +5,7 @@ var Branches = {
       output[i] = ' ';
     }
 
-    for(var i=0; i < input.length; i++) {
+    for(i=0; i < input.length; i++) {
       switch(input[i]) {
         case '<':
           output[i] = output[i] == ' ' ? '<' : ' ';
