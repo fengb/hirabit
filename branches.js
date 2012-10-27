@@ -8,13 +8,13 @@ var Branches = {
     for(var i=0; i < input.length; i++) {
       switch(input[i]) {
         case '<':
-          output[i] = '<';
+          output[i] = output[i] == ' ' ? '<' : ' ';
           break;
         case '>':
           output[i + 1] = '>';
           break;
         case 'X':
-          output[i] = '<';
+          output[i] = output[i] == ' ' ? '<' : ' ';
           output[i + 1] = '>';
           break;
       }
