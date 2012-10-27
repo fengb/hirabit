@@ -28,3 +28,11 @@ test('X/left/right collisions', function() {
   equal(Branches.next('>X'), '  >');
   equal(Branches.next('>X<'), '    ');
 });
+
+module('Branches.separate');
+test('no branches yields blank', function() {
+  equal(Branches.separate(' ', '.'), ' ');
+});
+test('no separations yields original', function() {
+  equal(Branches.separate('<', ' '), '<');
+});

@@ -21,5 +21,9 @@ var Branches = {
     }
 
     return output.join('');
+  },
+
+  separate: function(branches, separations) {
+    return branches;
   }
 };
