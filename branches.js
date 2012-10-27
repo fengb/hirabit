@@ -24,6 +24,12 @@ var Branches = {
   },
 
   separate: function(branches, separations) {
-    return branches;
+    var ret = branches.split('');
+    for(var i=0; i < separations.length; i++) {
+      if(separations[i] !== ' ' && ret[i] !== ' ') {
+        ret[i] = 'X';
+      }
+    }
+    return ret.join('');
   }
 };

@@ -36,3 +36,6 @@ test('no branches yields blank', function() {
 test('no separations yields original', function() {
   equal(Branches.separate('<', ' '), '<');
 });
+test('separations yields X', function() {
+  equal(Branches.separate('<<>', '. .'), 'X<X');
+});
