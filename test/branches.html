@@ -10,67 +10,80 @@
     <script src='../vendor/qunit.js'></script>
     <script src='../src/branches.js'></script>
     <script>
+      function equalNextRow(baseRowString, expected) {
+        equal(Branches.Row.fromString(baseRowString).next().toString(),
+              expected);
+      }
+
       module('Branches.Row:next()');
       test('blank yields blank', function() {
-        equal(Branches.Row.fromString('  ').next().toString(), '   ');
+        equalNextRow('  ', '   ');
       });
       test('explosion yields blank', function() {
-        equal(Branches.Row.fromString('**').next().toString(), '   ');
+        equalNextRow('**', '   ');
       });
       test('left yields moving left', function() {
-        equal(Branches.Row.fromString('<').next().toString(), '< ');
+        equalNextRow('<', '< ');
       });
       test('right yields moving right', function() {
-        equal(Branches.Row.fromString('>').next().toString(), ' >');
+        equalNextRow('>', ' >');
       });
       test('X yields both sides moving opposite directions', function() {
-        equal(Branches.Row.fromString('X').next().toString(), '<>');
+        equalNextRow('X', '<>');
       });
       test('parallel structures', function() {
-        equal(Branches.Row.fromString('<<').next().toString(), '<< ');
-        equal(Branches.Row.fromString('<X').next().toString(), '<<>');
-        equal(Branches.Row.fromString('X>').next().toString(), '<>>');
-        equal(Branches.Row.fromString('>>').next().toString(), ' >>');
+        equalNextRow('<<', '<< ');
+        equalNextRow('<X', '<<>');
+        equalNextRow('X>', '<>>');
+        equalNextRow('>>', ' >>');
       });
       test('left/right collision yields explosion', function() {
-        equal(Branches.Row.fromString('><').next().toString(), ' * ');
+        equalNextRow('><', ' * ');
       });
       test('X collision yields explosion in the middle', function() {
-        equal(Branches.Row.fromString('XX').next().toString(), '<*>');
+        equalNextRow('XX', '<*>');
       });
       test('X/left/right collisions', function() {
-        equal(Branches.Row.fromString('X<').next().toString(), '<* ');
-        equal(Branches.Row.fromString('>X').next().toString(), ' *>');
-        equal(Branches.Row.fromString('>X<').next().toString(), ' ** ');
+        equalNextRow('X<', '<* ');
+        equalNextRow('>X', ' *>');
+        equalNextRow('>X<', ' ** ');
       });
 
+      function equalSeparatedRow(baseRowString, separationString, expected) {
+        equal(Branches.Row.fromString(baseRowString).separate(separationString).toString(),
+              expected);
+      }
       module('Branches.Row:separate()');
       test('no branches yields blank', function() {
-        equal(Branches.Row.fromString(' ').separate('.').toString(), ' ');
+        equalSeparatedRow(' ', '.',
+                          ' ');
       });
       test('no separations yields original', function() {
-        equal(Branches.Row.fromString('<').separate(' ').toString(), '<');
+        equalSeparatedRow('<', ' ',
+                          '<');
       });
       test('separations yields X', function() {
-        equal(Branches.Row.fromString('<<>').separate('. .').toString(), 'X<X');
+        equalSeparatedRow('<<>', '. .',
+                          'X<X');
       });
       test('explosions yields explosion', function() {
-        equal(Branches.Row.fromString('*').separate('.').toString(), '*');
+        equalSeparatedRow('*', '.',
+                          '*');
       });
 
       module('Branches.Row.allFrom()');
       test('length is the same as arg length', function() {
-        var bunches = Branches.Row.allFrom(['', '']);
-        equal(bunches.length, 2);
-        bunches = Branches.Row.allFrom(['', '', '', '']);
-        equal(bunches.length, 4);
+        var rows = Branches.Row.allFrom(['', '']);
+        equal(rows.length, 2);
+        rows = Branches.Row.allFrom(['', '', '', '']);
+        equal(rows.length, 4);
       });
 
       test('values are transformed', function() {
-        var bunches = Branches.Row.allFrom([' ', '  ', '.  ']);
-        equal(bunches[0].toString(), 'X');
-        equal(bunches[1].toString(), '<>');
-        equal(bunches[2].toString(), 'X >');
+        var rows = Branches.Row.allFrom([' ', '  ', '.  ']);
+        equal(rows[0].toString(), 'X');
+        equal(rows[1].toString(), '<>');
+        equal(rows[2].toString(), 'X >');
       });
     </script>
   </body>
