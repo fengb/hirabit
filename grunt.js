@@ -1,11 +1,11 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     qunit: {
-      all: ['qunit.html']
+      all: ['test/**/*.html']
     },
 
     lint: {
-      all: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
+      all: ['grunt.js', 'src/**/*.js']
     },
 
     jshint: {
