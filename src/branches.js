@@ -1,6 +1,10 @@
 function Branches(val) {
-  this.val = (typeof val == 'string') ? val.split('') : val;
+  this.val = val;
 }
+
+Branches.fromString = function(str) {
+  return new Branches(str.split(''));
+};
 
 Branches.prototype.toString = function() {
   return this.val.join('');
