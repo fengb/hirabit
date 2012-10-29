@@ -37,6 +37,16 @@ var Branches = function(module) {
           }
         }
         return module.Row.init(ret);
+      },
+
+      runAll: function(separationRows) {
+        var prev = this.separate(separationRows[0]);
+        var ret = [prev];
+        for(var i=1; i < separationRows.length; i++) {
+          prev = prev.next().separate(separationRows[i]);
+          ret.push(prev);
+        }
+        return ret;
       }
     };
 
@@ -82,7 +92,7 @@ var Branches = function(module) {
       for(var i = 0; i < separationRows.length; i++) {
         branchRow = branchRow.separate(separationRows[i]);
         for(var j = 0; j < branchRow.length; j++) {
-          $rows[i][j].html(branchRow[j].replace(' ', '&nbsp;'));
+          $rows[i][j].html(branchRow[j].replace(' ', '.'));
         }
         branchRow = branchRow.next();
       }

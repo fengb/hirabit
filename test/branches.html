@@ -10,7 +10,7 @@
     <script src='../vendor/qunit.js'></script>
     <script src='../src/branches.js'></script>
     <script>
-      module('Branches.Row.next');
+      module('Branches.Row:next()');
       test('blank yields blank', function() {
         equal(Branches.Row.fromString('  ').next().toString(), '   ');
       });
@@ -44,7 +44,7 @@
         equal(Branches.Row.fromString('>X<').next().toString(), ' ** ');
       });
 
-      module('Branches.Row.separate');
+      module('Branches.Row:separate()');
       test('no branches yields blank', function() {
         equal(Branches.Row.fromString(' ').separate('.').toString(), ' ');
       });
@@ -56,6 +56,23 @@
       });
       test('explosions yields explosion', function() {
         equal(Branches.Row.fromString('*').separate('.').toString(), '*');
+      });
+
+      module('Branches.Row.runAll()');
+      test('length is the same as arg length', function() {
+        var base = Branches.Row.fromString(' ');
+        var bunches = base.runAll(['', '']);
+        equal(bunches.length, 2);
+        var bunches = base.runAll(['', '', '', '']);
+        equal(bunches.length, 4);
+      });
+
+      test('values are transformed', function() {
+        var base = Branches.Row.fromString('X');
+        var bunches = base.runAll([' ', '  ', '.  ']);
+        equal(bunches[0].toString(), 'X');
+        equal(bunches[1].toString(), '<>');
+        equal(bunches[2].toString(), 'X >');
       });
     </script>
   </body>
