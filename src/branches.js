@@ -60,14 +60,29 @@ for(var i = 0; i < 8; i++) {
 }
 
 
+var $rows = [];
 $.each(separationRows, function(i, separationRow) {
   var $separationRow = $('<div />').appendTo('body');
+  $rows.push([]);
   $.each(separationRow, function(j, separation) {
     var $separation = $('<span>.</span>').appendTo($separationRow);
+    $rows[i].push($separation);
     $separation.click(function() {
       /* Cannot be separation because we mutate the row. */
       separationRow[j] = separationRow[j] === ' ' ? '.' : ' ';
       $separation.toggleClass('active', separationRow[j] !== ' ');
     });
   });
+});
+
+
+$('<button>Run!</button>').appendTo('body').click(function() {
+  var branchRow = BranchRow.fromString('X');
+  for(var i = 0; i < separationRows.length; i++) {
+    branchRow = branchRow.separate(separationRows[i]);
+    for(var j = 0; j < branchRow.length; j++) {
+      $rows[i][j].html(branchRow[j].replace(' ', '&nbsp;'));
+    }
+    branchRow = branchRow.next();
+  }
 });
