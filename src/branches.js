@@ -52,3 +52,22 @@ var BranchRow = function(){
     }
   };
 }();
+
+
+var separationRows = [];
+for(var i = 0; i < 8; i++) {
+  separationRows[i] = Array(i + 2).join(' ').split('');
+}
+
+
+$.each(separationRows, function(i, separationRow) {
+  var $separationRow = $('<div />').appendTo('body');
+  $.each(separationRow, function(j, separation) {
+    var $separation = $('<span>.</span>').appendTo($separationRow);
+    $separation.click(function() {
+      /* Cannot be separation because we mutate the row. */
+      separationRow[j] = separationRow[j] === ' ' ? '.' : ' ';
+      $separation.toggleClass('active', separationRow[j] !== ' ');
+    });
+  });
+});
