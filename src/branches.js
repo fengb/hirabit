@@ -88,13 +88,11 @@ var Branches = function(module) {
 
 
     $('<button>Run!</button>').appendTo('body').click(function() {
-      var branchRow = module.Row.fromString('X');
+      var branchRows = module.Row.fromString('X').runAll(separationRows);
       for(var i = 0; i < separationRows.length; i++) {
-        branchRow = branchRow.separate(separationRows[i]);
-        for(var j = 0; j < branchRow.length; j++) {
-          $rows[i][j].html(branchRow[j].replace(' ', '.'));
+        for(var j = 0; j < branchRows[i].length; j++) {
+          $rows[i][j].html(branchRows[i][j].replace(' ', '.'));
         }
-        branchRow = branchRow.next();
       }
     });
   };
