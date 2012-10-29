@@ -37,16 +37,6 @@ var Branches = function(module) {
           }
         }
         return module.Row.init(ret);
-      },
-
-      runAll: function(separationRows) {
-        var prev = this.separate(separationRows[0]);
-        var ret = [prev];
-        for(var i=1; i < separationRows.length; i++) {
-          prev = prev.next().separate(separationRows[i]);
-          ret.push(prev);
-        }
-        return ret;
       }
     };
 
@@ -60,6 +50,17 @@ var Branches = function(module) {
 
       fromString: function(str) {
         return module.Row.init(str.split(''));
+      },
+
+      allFrom: function(separationRows) {
+        var base = module.Row.fromString('X');
+        var prev = base.separate(separationRows[0]);
+        var ret = [prev];
+        for(var i=1; i < separationRows.length; i++) {
+          prev = prev.next().separate(separationRows[i]);
+          ret.push(prev);
+        }
+        return ret;
       }
     };
   }();
@@ -88,7 +89,7 @@ var Branches = function(module) {
 
 
     $('<button>Run!</button>').appendTo('body').click(function() {
-      var branchRows = module.Row.fromString('X').runAll(separationRows);
+      var branchRows = module.Row.allFrom(separationRows);
       for(var i = 0; i < separationRows.length; i++) {
         for(var j = 0; j < branchRows[i].length; j++) {
           $rows[i][j].html(branchRows[i][j].replace(' ', '.'));

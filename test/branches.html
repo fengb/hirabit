@@ -58,18 +58,16 @@
         equal(Branches.Row.fromString('*').separate('.').toString(), '*');
       });
 
-      module('Branches.Row.runAll()');
+      module('Branches.Row.allFrom()');
       test('length is the same as arg length', function() {
-        var base = Branches.Row.fromString(' ');
-        var bunches = base.runAll(['', '']);
+        var bunches = Branches.Row.allFrom(['', '']);
         equal(bunches.length, 2);
-        var bunches = base.runAll(['', '', '', '']);
+        bunches = Branches.Row.allFrom(['', '', '', '']);
         equal(bunches.length, 4);
       });
 
       test('values are transformed', function() {
-        var base = Branches.Row.fromString('X');
-        var bunches = base.runAll([' ', '  ', '.  ']);
+        var bunches = Branches.Row.allFrom([' ', '  ', '.  ']);
         equal(bunches[0].toString(), 'X');
         equal(bunches[1].toString(), '<>');
         equal(bunches[2].toString(), 'X >');
