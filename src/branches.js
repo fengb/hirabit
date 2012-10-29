@@ -1,4 +1,4 @@
-var Branches = function(){
+var BranchRow = function(){
   var instanceMethods = {
     toString: function() {
       return this.join('');
@@ -25,17 +25,17 @@ var Branches = function(){
         }
       }
 
-      return Branches.init(output);
+      return BranchRow.init(output);
     },
 
-    separate: function(separations) {
+    separate: function(separationRow) {
       var ret = this.slice(0);
-      for(var i=0; i < separations.length; i++) {
-        if(separations[i] !== ' ' && ret[i] !== ' ') {
+      for(var i=0; i < separationRow.length; i++) {
+        if(separationRow[i] !== ' ' && ret[i] !== ' ') {
           ret[i] = 'X';
         }
       }
-      return Branches.init(ret);
+      return BranchRow.init(ret);
     }
   };
 
@@ -48,7 +48,7 @@ var Branches = function(){
     },
 
     fromString: function(str) {
-      return Branches.init(str.split(''));
+      return BranchRow.init(str.split(''));
     }
   };
 }();
