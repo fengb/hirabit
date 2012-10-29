@@ -14,13 +14,13 @@ var Branches = function(module) {
         for(i=0; i < this.length; i++) {
           switch(this[i]) {
             case '<':
-              output[i] = output[i] == ' ' ? '<' : ' ';
+              output[i] = output[i] == ' ' ? '<' : '*';
               break;
             case '>':
               output[i + 1] = '>';
               break;
             case 'X':
-              output[i] = output[i] == ' ' ? '<' : ' ';
+              output[i] = output[i] == ' ' ? '<' : '*';
               output[i + 1] = '>';
               break;
           }
@@ -32,7 +32,7 @@ var Branches = function(module) {
       separate: function(separationRow) {
         var ret = this.slice(0);
         for(var i=0; i < separationRow.length; i++) {
-          if(separationRow[i] !== ' ' && ret[i] !== ' ') {
+          if(separationRow[i] !== ' ' && ret[i] !== ' ' && ret[i] !== '*') {
             ret[i] = 'X';
           }
         }
