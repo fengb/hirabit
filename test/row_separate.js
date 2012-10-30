@@ -1,21 +1,27 @@
-function equalSeparatedRow(baseRowString, separationString, expected) {
-  equal(Branches.Row.fromString(baseRowString).separate(separationString).toString(),
-        expected);
-}
 module('Branches.Row:separate()');
+
+function equalSeparatedRow(baseRowString, separationString, expected) {
+  var row = Branches.Row.fromString(baseRowString);
+  equal(row.separate(separationString).toString(), expected);
+}
+
 test('no branches yields blank', function() {
-  equalSeparatedRow(' ', '.',
+  equalSeparatedRow(' ',
+                    '.',
                     ' ');
 });
 test('no separations yields original', function() {
-  equalSeparatedRow('<', ' ',
+  equalSeparatedRow('<',
+                    ' ',
                     '<');
 });
 test('separations yields X', function() {
-  equalSeparatedRow('<<>', '. .',
+  equalSeparatedRow('<<>',
+                    '. .',
                     'X<X');
 });
 test('explosions yields explosion', function() {
-  equalSeparatedRow('*', '.',
+  equalSeparatedRow('*',
+                    '.',
                     '*');
 });

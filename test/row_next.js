@@ -1,9 +1,10 @@
+module('Branches.Row:next()');
+
 function equalNextRow(baseRowString, expected) {
   equal(Branches.Row.fromString(baseRowString).next().toString(),
         expected);
 }
 
-module('Branches.Row:next()');
 test('blank yields blank', function() {
   equalNextRow('  ', '   ');
 });
