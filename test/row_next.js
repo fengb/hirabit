@@ -1,8 +1,8 @@
 module('Branches.Row:next()');
 
 function equalNextRow(baseRowString, expected) {
-  equal(Branches.Row.fromString(baseRowString).next().toString(),
-        expected);
+  var row = Branches.Row.fromString(baseRowString);
+  equal(row.next().toString(), expected);
 }
 
 test('blank yields blank', function() {
