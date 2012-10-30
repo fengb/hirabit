@@ -1,5 +1,12 @@
 var Branches = function(module) {
   module.Row = function(){
+    function init(array) {
+      for(var method in instanceMethods) {
+        array[method] = instanceMethods[method];
+      }
+      return array;
+    }
+
     function Node(humanName, left, right) {
       Node.values[humanName] = {
         left: left,
@@ -35,7 +42,7 @@ var Branches = function(module) {
           }
         }
 
-        return module.Row.init(output);
+        return init(output);
       },
 
       branch: function(branchRow) {
@@ -45,24 +52,17 @@ var Branches = function(module) {
             ret[i] = Node.both;
           }
         }
-        return module.Row.init(ret);
+        return init(ret);
       }
     };
 
     return {
-      init: function(array) {
-        for(var method in instanceMethods) {
-          array[method] = instanceMethods[method];
-        }
-        return array;
-      },
-
       fromString: function(str) {
         var array = [];
         for(var i=0; i < str.length; i++) {
           array[i] = Node.values[str[i]];
         }
-        return module.Row.init(array);
+        return init(array);
       },
 
       allFrom: function(branchRows) {
