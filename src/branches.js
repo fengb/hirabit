@@ -1,5 +1,20 @@
 var Branches = function(module) {
   module.Row = function(){
+    function Node(humanName, left, right) {
+      Node.values[humanName] = {
+        left: left,
+        right: right,
+        toString: function() { return humanName; }
+      };
+      return Node.values[humanName];
+    }
+    Node.values = [];
+    Node.left = Node('<', true, false);
+    Node.right = Node('>', false, true);
+    Node.both = Node('X', true, true);
+    Node.none = Node(' ', false, false);
+    Node.merge = Node('*', false, false);
+
     var instanceMethods = {
       toString: function() {
         return this.join('');
@@ -8,21 +23,15 @@ var Branches = function(module) {
       next: function() {
         var output = [];
         for(var i=0; i < this.length + 1; i++) {
-          output[i] = ' ';
+          output[i] = Node.none;
         }
 
         for(i=0; i < this.length; i++) {
-          switch(this[i]) {
-            case '<':
-              output[i] = output[i] == ' ' ? '<' : '*';
-              break;
-            case '>':
-              output[i + 1] = '>';
-              break;
-            case 'X':
-              output[i] = output[i] == ' ' ? '<' : '*';
-              output[i + 1] = '>';
-              break;
+          if(this[i].left) {
+            output[i] = output[i] == Node.none ? Node.left : Node.merge;
+          }
+          if(this[i].right) {
+            output[i+1] = Node.right;
           }
         }
 
@@ -32,8 +41,8 @@ var Branches = function(module) {
       branch: function(branchRow) {
         var ret = this.slice(0);
         for(var i=0; i < branchRow.length; i++) {
-          if(branchRow[i] !== ' ' && ret[i] !== ' ' && ret[i] !== '*') {
-            ret[i] = 'X';
+          if(branchRow[i] !== ' ' && (this[i].left || this[i].right)) {
+            ret[i] = Node.both;
           }
         }
         return module.Row.init(ret);
@@ -49,7 +58,11 @@ var Branches = function(module) {
       },
 
       fromString: function(str) {
-        return module.Row.init(str.split(''));
+        var array = [];
+        for(var i=0; i < str.length; i++) {
+          array[i] = Node.values[str[i]];
+        }
+        return module.Row.init(array);
       },
 
       allFrom: function(branchRows) {
@@ -71,7 +84,6 @@ var Branches = function(module) {
       branchRows[i] = Array(i + 2).join(' ').split('');
     }
 
-
     var $rows = [];
     $.each(branchRows, function(i, branchRow) {
       var $branchRow = $('<div />').appendTo('body');
@@ -89,10 +101,10 @@ var Branches = function(module) {
 
 
     $('<button>Run!</button>').appendTo('body').click(function() {
-      var branchRows = module.Row.allFrom(branchRows);
-      for(var i = 0; i < branchRows.length; i++) {
-        for(var j = 0; j < branchRows[i].length; j++) {
-          $rows[i][j].html(branchRows[i][j].replace(' ', '.'));
+      var rows = module.Row.allFrom(branchRows);
+      for(var i = 0; i < rows.length; i++) {
+        for(var j = 0; j < rows[i].length; j++) {
+          $rows[i][j].html(rows[i][j].toString().replace(' ', '.'));
         }
       }
     });
