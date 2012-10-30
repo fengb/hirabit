@@ -29,10 +29,10 @@ var Branches = function(module) {
         return module.Row.init(output);
       },
 
-      separate: function(separationRow) {
+      branch: function(branchRow) {
         var ret = this.slice(0);
-        for(var i=0; i < separationRow.length; i++) {
-          if(separationRow[i] !== ' ' && ret[i] !== ' ' && ret[i] !== '*') {
+        for(var i=0; i < branchRow.length; i++) {
+          if(branchRow[i] !== ' ' && ret[i] !== ' ' && ret[i] !== '*') {
             ret[i] = 'X';
           }
         }
@@ -52,12 +52,12 @@ var Branches = function(module) {
         return module.Row.init(str.split(''));
       },
 
-      allFrom: function(separationRows) {
+      allFrom: function(branchRows) {
         var base = module.Row.fromString('X');
-        var prev = base.separate(separationRows[0]);
+        var prev = base.branch(branchRows[0]);
         var ret = [prev];
-        for(var i=1; i < separationRows.length; i++) {
-          prev = prev.next().separate(separationRows[i]);
+        for(var i=1; i < branchRows.length; i++) {
+          prev = prev.next().branch(branchRows[i]);
           ret.push(prev);
         }
         return ret;
@@ -66,31 +66,31 @@ var Branches = function(module) {
   }();
 
   module.ui = function() {
-    var separationRows = [];
+    var branchRows = [];
     for(var i = 0; i < 8; i++) {
-      separationRows[i] = Array(i + 2).join(' ').split('');
+      branchRows[i] = Array(i + 2).join(' ').split('');
     }
 
 
     var $rows = [];
-    $.each(separationRows, function(i, separationRow) {
-      var $separationRow = $('<div />').appendTo('body');
+    $.each(branchRows, function(i, branchRow) {
+      var $branchRow = $('<div />').appendTo('body');
       $rows.push([]);
-      $.each(separationRow, function(j, separation) {
-        var $separation = $('<span>.</span>').appendTo($separationRow);
+      $.each(branchRow, function(j, separation) {
+        var $separation = $('<span>.</span>').appendTo($branchRow);
         $rows[i].push($separation);
         $separation.click(function() {
           /* Cannot be separation because we mutate the row. */
-          separationRow[j] = separationRow[j] === ' ' ? '.' : ' ';
-          $separation.toggleClass('active', separationRow[j] !== ' ');
+          branchRow[j] = branchRow[j] === ' ' ? '.' : ' ';
+          $separation.toggleClass('active', branchRow[j] !== ' ');
         });
       });
     });
 
 
     $('<button>Run!</button>').appendTo('body').click(function() {
-      var branchRows = module.Row.allFrom(separationRows);
-      for(var i = 0; i < separationRows.length; i++) {
+      var branchRows = module.Row.allFrom(branchRows);
+      for(var i = 0; i < branchRows.length; i++) {
         for(var j = 0; j < branchRows[i].length; j++) {
           $rows[i][j].html(branchRows[i][j].replace(' ', '.'));
         }
