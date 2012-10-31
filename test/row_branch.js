@@ -1,8 +1,9 @@
 module('Branches.Row:separate()');
 
-function equalBranchedRow(baseRowString, branchRow, expected) {
-  var row = Branches.Row.fromString(baseRowString);
-  equal(row.branch(branchRow).toString(), expected);
+function equalBranchedRow(rowString, branchString, expected) {
+  var row = Branches.Row.fromString(rowString);
+  var branchDirective = Branches.BranchDirective.fromString(branchString);
+  equal(row.branch(branchDirective).toString(), expected);
 }
 
 test('no branches yield blank', function() {

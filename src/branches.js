@@ -45,10 +45,10 @@ var Branches = function(module) {
         return init(output);
       },
 
-      branch: function(branchRow) {
+      branch: function(branchDirective) {
         var ret = this.slice(0);
-        for(var i=0; i < branchRow.length; i++) {
-          if(branchRow[i] !== ' ' && (this[i].left || this[i].right)) {
+        for(var i=0; i < branchDirective.length; i++) {
+          if(branchDirective[i] && (this[i].left || this[i].right)) {
             ret[i] = Node.both;
           }
         }
@@ -78,30 +78,48 @@ var Branches = function(module) {
     };
   }();
 
-  module.ui = function() {
-    var branchRows = [];
-    for(var i = 0; i < 8; i++) {
-      branchRows[i] = Array(i + 2).join(' ').split('');
+  module.BranchDirective = {
+    fromString: function(string) {
+      var ret = [];
+      for(var i=0; i < string.length; i++) {
+        ret[i] = (string[i] == '.');
+      }
+      return ret;
+    },
+
+    many: function(num) {
+      var directives = [];
+      for(var i = 0; i < num; i++) {
+        directives[i] = [];
+        for(var j = 0; j < i + 1; j++) {
+          directives[i][j] = false;
+        }
+      }
+      return directives;
     }
+  };
+
+  module.ui = function() {
+    var branchDirectives = module.BranchDirective.many(8);
 
     var $rows = [];
-    $.each(branchRows, function(i, branchRow) {
+    $.each(branchDirectives, function(i, branchDirective) {
       var $branchRow = $('<div />').appendTo('body');
       $rows.push([]);
-      $.each(branchRow, function(j, separation) {
+      $.each(branchDirective, function(j, separation) {
         var $separation = $('<span>.</span>').appendTo($branchRow);
         $rows[i].push($separation);
         $separation.click(function() {
           /* Cannot be separation because we mutate the row. */
-          branchRow[j] = branchRow[j] === ' ' ? '.' : ' ';
-          $separation.toggleClass('active', branchRow[j] !== ' ');
+          branchDirective[j] = !branchDirective[j];
+          $separation.toggleClass('active', branchDirective);
         });
       });
     });
 
 
     $('<button>Run!</button>').appendTo('body').click(function() {
-      var rows = module.Row.allFrom(branchRows);
+      var rows = module.Row.allFrom(branchDirectives);
       for(var i = 0; i < rows.length; i++) {
         for(var j = 0; j < rows[i].length; j++) {
           $rows[i][j].html(rows[i][j].toString().replace(' ', '.'));
