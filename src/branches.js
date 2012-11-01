@@ -1,12 +1,5 @@
 var Branches = function(module) {
   module.Row = function(){
-    function init(array) {
-      for(var method in instanceMethods) {
-        array[method] = instanceMethods[method];
-      }
-      return array;
-    }
-
     function Node(humanName, left, right) {
       Node.values[humanName] = {
         left: left,
@@ -21,6 +14,13 @@ var Branches = function(module) {
     Node.both = Node('X', true, true);
     Node.none = Node(' ', false, false);
     Node.merge = Node('*', false, false);
+
+    function init(array) {
+      for(var method in instanceMethods) {
+        array[method] = instanceMethods[method];
+      }
+      return array;
+    }
 
     var instanceMethods = {
       toString: function() {
@@ -113,19 +113,20 @@ var Branches = function(module) {
           /* Cannot be separation because we mutate the row. */
           branchDirective[j] = !branchDirective[j];
           $separation.toggleClass('active', branchDirective);
+          drawExecution();
         });
       });
     });
 
-
-    $('<button>Run!</button>').appendTo('body').click(function() {
+    function drawExecution() {
       var rows = module.Row.allFrom(branchDirectives);
       for(var i = 0; i < rows.length; i++) {
         for(var j = 0; j < rows[i].length; j++) {
           $rows[i][j].html(rows[i][j].toString().replace(' ', '.'));
         }
       }
-    });
+    }
+    drawExecution();
   };
 
   return module;
