@@ -112,12 +112,12 @@ var Branches = function(module) {
           /* Cannot be separation because we mutate the row. */
           directive[j] = !directive[j];
           $separation.toggleClass('active', directive);
-          drawExecution();
+          animateExecution(i);
         });
       });
     });
 
-    function drawExecution() {
+    function animateExecution(changedRow) {
       var rows = module.Row.allFrom(directives);
       var $oldExecutions = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
@@ -127,11 +127,18 @@ var Branches = function(module) {
           $row.append('<span>' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
         }
       }
-      $execution.slideUp(0).slideDown(1000, function() {
+
+      var startDrawRow = (changedRow === undefined) ? 0               // Redraw everything
+                                                    : changedRow + 1; // Changed row is drawn instantaneously.
+      var rowHeight = parseInt($execution.find('span').css('height'));
+      var startHeight = rowHeight * startDrawRow;
+      var endHeight = rowHeight * rows.length;
+      var animationDuration = (rows.length - startDrawRow) * 100;
+      $execution.css('height', startHeight).animate({height: endHeight}, animationDuration, 'linear', function() {
         $oldExecutions.remove();
       });
     }
-    drawExecution();
+    animateExecution();
   };
 
   return module;
