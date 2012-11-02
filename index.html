@@ -8,6 +8,7 @@
     <style>
       div.field {
         position: relative;
+        text-align: center;
       }
 
       div.directives {
@@ -20,20 +21,21 @@
         left: 0;
         right: 0;
         top: 0;
+        background: white;
       }
 
-      div {
-        text-align:center;
+      div.execution.stale {
+        z-index: -2;
       }
 
       span {
-        display:inline-block;
-        width:20px;
-        cursor:pointer;
+        display: inline-block;
+        width: 20px;
+        cursor: pointer;
       }
 
       span.active {
-        background:#888;
+        background: #888;
       }
     </style>
   </head>

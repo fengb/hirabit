@@ -119,7 +119,7 @@ var Branches = function(module) {
 
     function drawExecution() {
       var rows = module.Row.allFrom(directives);
-      var $oldExecutions = $('div.execution').remove();
+      var $oldExecutions = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
       for(var i = 0; i < rows.length; i++) {
         var $row = $('<div />').appendTo($execution);
@@ -127,6 +127,9 @@ var Branches = function(module) {
           $row.append('<span>' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
         }
       }
+      $execution.slideUp(0).slideDown(1000, function() {
+        $oldExecutions.remove();
+      });
     }
     drawExecution();
   };
