@@ -35,7 +35,7 @@ var Branches = function(module) {
 
         for(i=0; i < this.length; i++) {
           if(this[i].left) {
-            output[i] = output[i] == Node.none ? Node.left : Node.merge;
+            output[i] = output[i].right ? Node.merge : Node.left;
           }
           if(this[i].right) {
             output[i+1] = Node.right;
