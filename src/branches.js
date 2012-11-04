@@ -53,6 +53,19 @@ var Branches = function(module) {
           }
         }
         return init(ret);
+      },
+
+      equivalentTo: function(that) {
+        if(this.length != that.length) {
+          return false;
+        }
+
+        for(var i = 0; i < this.length; i++) {
+          if(this[i] != that[i]) {
+            return false;
+          }
+        }
+        return true;
       }
     };
 
