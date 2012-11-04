@@ -1,4 +1,5 @@
 module('Branches.BranchDirective.many()');
+
 test('generates <num> directives', function() {
   var directives = Branches.BranchDirective.many(12);
   equal(directives.length, 12);

@@ -1,39 +1,41 @@
-module('Branches.Row:next()');
-
-function equalNextRow(baseRowString, expected) {
-  var row = Branches.Row.fromString(baseRowString);
-  equal(row.next().toString(), expected);
-}
+module('Branches.Row:next()', {
+  setup: function() {
+    this.equalNextRow = function(baseRowString, expected) {
+      var row = Branches.Row.fromString(baseRowString);
+      equal(row.next().toString(), expected);
+    };
+  }
+});
 
 test('blank yields blank', function() {
-  equalNextRow('  ', '   ');
+  this.equalNextRow('  ', '   ');
 });
 test('explosion yields blank', function() {
-  equalNextRow('**', '   ');
+  this.equalNextRow('**', '   ');
 });
 test('left yields moving left', function() {
-  equalNextRow('<', '< ');
+  this.equalNextRow('<', '< ');
 });
 test('right yields moving right', function() {
-  equalNextRow('>', ' >');
+  this.equalNextRow('>', ' >');
 });
 test('X yields both sides moving opposite directions', function() {
-  equalNextRow('X', '<>');
+  this.equalNextRow('X', '<>');
 });
 test('parallel structures', function() {
-  equalNextRow('<<', '<< ');
-  equalNextRow('<X', '<<>');
-  equalNextRow('X>', '<>>');
-  equalNextRow('>>', ' >>');
+  this.equalNextRow('<<', '<< ');
+  this.equalNextRow('<X', '<<>');
+  this.equalNextRow('X>', '<>>');
+  this.equalNextRow('>>', ' >>');
 });
 test('left/right merge yields explosion', function() {
-  equalNextRow('><', ' * ');
+  this.equalNextRow('><', ' * ');
 });
 test('X merge yields explosion in the middle', function() {
-  equalNextRow('XX', '<*>');
+  this.equalNextRow('XX', '<*>');
 });
 test('X/left/right merges', function() {
-  equalNextRow('X<', '<* ');
-  equalNextRow('>X', ' *>');
-  equalNextRow('>X<', ' ** ');
+  this.equalNextRow('X<', '<* ');
+  this.equalNextRow('>X', ' *>');
+  this.equalNextRow('>X<', ' ** ');
 });
