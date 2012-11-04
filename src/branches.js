@@ -61,7 +61,7 @@ var Branches = function(module) {
         }
 
         for(var i = 0; i < this.length; i++) {
-          if(this[i] != that[i]) {
+          if(this[i].left != that[i].left || this[i].right != that[i].right) {
             return false;
           }
         }

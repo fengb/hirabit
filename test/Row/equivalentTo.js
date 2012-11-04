@@ -25,6 +25,12 @@ test('equivalent to same data but different instance', function() {
   equivalent(row1, row2);
 });
 
+test('blank equivalent to merge', function() {
+  var row1 = Branches.Row.fromString(' ');
+  var row2 = Branches.Row.fromString('*');
+  equivalent(row1, row2);
+});
+
 test('content differences are not equivalent', function() {
   var chars = ' <>X';
   for(var i = 0; i < chars.length; i++) {
