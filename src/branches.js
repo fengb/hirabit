@@ -1,19 +1,41 @@
 var Branches = function(module) {
-  module.Row = function(){
-    function Node(humanName, left, right) {
-      Node.values[humanName] = {
+  module.Directive = {
+    fromString: function(string) {
+      var ret = [];
+      for(var i=0; i < string.length; i++) {
+        ret[i] = (string[i] == '.');
+      }
+      return ret;
+    },
+
+    many: function(num) {
+      var directives = [];
+      for(var i = 0; i < num; i++) {
+        directives[i] = [];
+        for(var j = 0; j < i + 1; j++) {
+          directives[i][j] = false;
+        }
+      }
+      return directives;
+    }
+  };
+
+  module.Row = function() {
+    function Node(symbol, description, left, right) {
+      Node.values[symbol] = {
+        description: description,
         left: left,
         right: right,
-        toString: function() { return humanName; }
+        toString: function() { return symbol; }
       };
-      return Node.values[humanName];
+      return Node.values[symbol];
     }
     Node.values = [];
-    Node.left = Node('<', true, false);
-    Node.right = Node('>', false, true);
-    Node.both = Node('X', true, true);
-    Node.none = Node(' ', false, false);
-    Node.merge = Node('*', false, false);
+    Node.left =    Node('<',   'left',  true, false);
+    Node.right =   Node('>',  'right', false,  true);
+    Node.branch =  Node('X', 'branch',  true,  true);
+    Node.none =    Node(' ',  'empty', false, false);
+    Node.merge =   Node('*',  'merge', false, false);
 
     function init(array) {
       for(var method in instanceMethods) {
@@ -49,7 +71,7 @@ var Branches = function(module) {
         var ret = this.slice(0);
         for(var i=0; i < directive.length; i++) {
           if(directive[i] && (this[i].left || this[i].right)) {
-            ret[i] = Node.both;
+            ret[i] = Node.branch;
           }
         }
         return init(ret);
