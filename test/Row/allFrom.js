@@ -1,11 +1,11 @@
 module('Branches.Row.allFrom()', {
   setup: function() {
     this.allFromBranchStrings = function(branchStrings) {
-      var branchDirectives = [];
+      var directives = [];
       for(var i=0; i < branchStrings.length; i++) {
-        branchDirectives[i] = Branches.BranchDirective.fromString(branchStrings[i]);
+        directives[i] = Branches.Directive.fromString(branchStrings[i]);
       }
-      return Branches.Row.allFrom(branchDirectives);
+      return Branches.Row.allFrom(directives);
     };
   }
 });

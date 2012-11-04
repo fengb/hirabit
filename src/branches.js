@@ -45,10 +45,10 @@ var Branches = function(module) {
         return init(output);
       },
 
-      branch: function(branchDirective) {
+      branch: function(directive) {
         var ret = this.slice(0);
-        for(var i=0; i < branchDirective.length; i++) {
-          if(branchDirective[i] && (this[i].left || this[i].right)) {
+        for(var i=0; i < directive.length; i++) {
+          if(directive[i] && (this[i].left || this[i].right)) {
             ret[i] = Node.both;
           }
         }
@@ -78,12 +78,12 @@ var Branches = function(module) {
         return init(array);
       },
 
-      allFrom: function(branchRows) {
+      allFrom: function(directives) {
         var base = module.Row.fromString('X');
-        var prev = base.branch(branchRows[0]);
+        var prev = base.branch(directives[0]);
         var ret = [prev];
-        for(var i=1; i < branchRows.length; i++) {
-          prev = prev.next().branch(branchRows[i]);
+        for(var i=1; i < directives.length; i++) {
+          prev = prev.next().branch(directives[i]);
           ret.push(prev);
         }
         return ret;
@@ -91,7 +91,7 @@ var Branches = function(module) {
     };
   }();
 
-  module.BranchDirective = {
+  module.Directive = {
     fromString: function(string) {
       var ret = [];
       for(var i=0; i < string.length; i++) {
@@ -113,26 +113,26 @@ var Branches = function(module) {
   };
 
   module.ui = function() {
-    var branchDirectives = module.BranchDirective.many(8);
+    var directives = module.Directive.many(8);
 
     var $rows = [];
-    $.each(branchDirectives, function(i, branchDirective) {
+    $.each(directives, function(i, directive) {
       var $branchRow = $('<div />').appendTo('body');
       $rows.push([]);
-      $.each(branchDirective, function(j, separation) {
+      $.each(directive, function(j, separation) {
         var $separation = $('<span>.</span>').appendTo($branchRow);
         $rows[i].push($separation);
         $separation.click(function() {
           /* Cannot be separation because we mutate the row. */
-          branchDirective[j] = !branchDirective[j];
-          $separation.toggleClass('active', branchDirective);
+          directive[j] = !directive[j];
+          $separation.toggleClass('active', directive);
           drawExecution();
         });
       });
     });
 
     function drawExecution() {
-      var rows = module.Row.allFrom(branchDirectives);
+      var rows = module.Row.allFrom(directives);
       for(var i = 0; i < rows.length; i++) {
         for(var j = 0; j < rows[i].length; j++) {
           $rows[i][j].html(rows[i][j].toString().replace(' ', '.'));

@@ -1,9 +1,9 @@
-module('Branches.Row:separate()', {
+module('Branches.Row:branch()', {
   setup: function() {
     this.equalBranchedRow = function(rowString, branchString, expected) {
       var row = Branches.Row.fromString(rowString);
-      var branchDirective = Branches.BranchDirective.fromString(branchString);
-      equal(row.branch(branchDirective).toString(), expected);
+      var directive = Branches.Directive.fromString(branchString);
+      equal(row.branch(directive).toString(), expected);
     };
   }
 });
