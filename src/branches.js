@@ -137,31 +137,43 @@ var Branches = function(module) {
   module.ui = function() {
     var directives = module.Directive.many(8);
 
-    var $rows = [];
+    var $field = $('<div class="field" />').appendTo('body');
+    var $directives = $('<div class="directives" />').appendTo($field);
     $.each(directives, function(i, directive) {
-      var $branchRow = $('<div />').appendTo('body');
-      $rows.push([]);
-      $.each(directive, function(j, separation) {
-        var $separation = $('<span>.</span>').appendTo($branchRow);
-        $rows[i].push($separation);
+      var $directive = $('<div />').appendTo($directives);
+      $.each(directive, function(j) {
+        var $separation = $('<span>.</span>').appendTo($directive);
         $separation.click(function() {
           /* Cannot be separation because we mutate the row. */
           directive[j] = !directive[j];
           $separation.toggleClass('active', directive);
-          drawExecution();
+          animateExecution(i);
         });
       });
     });
 
-    function drawExecution() {
+    function animateExecution(changedRow) {
       var rows = module.Row.allFrom(directives);
+      var $oldExecutions = $('div.execution').addClass('stale');
+      var $execution = $('<div class="execution" />').appendTo($field);
       for(var i = 0; i < rows.length; i++) {
+        var $row = $('<div />').appendTo($execution);
         for(var j = 0; j < rows[i].length; j++) {
-          $rows[i][j].html(rows[i][j].toString().replace(' ', '.'));
+          $row.append('<span>' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
         }
       }
+
+      var startDrawRow = (changedRow === undefined) ? 0               // Redraw everything
+                                                    : changedRow + 1; // Changed row is drawn instantaneously.
+      var rowHeight = parseInt($execution.find('span').css('height'), 10);
+      var startHeight = rowHeight * startDrawRow;
+      var endHeight = rowHeight * rows.length;
+      var animationDuration = (rows.length - startDrawRow) * 100;
+      $execution.css('height', startHeight).animate({height: endHeight}, animationDuration, 'linear', function() {
+        $oldExecutions.remove();
+      });
     }
-    drawExecution();
+    animateExecution();
   };
 
   return module;

@@ -6,18 +6,37 @@
     <title>Branches of Madison County</title>
     <script>document.documentElement.className='js'</script>
     <style>
-      div {
-        text-align:center;
+      div.field {
+        position: relative;
+        text-align: center;
+      }
+
+      div.directives {
+        opacity: 0.5;
+      }
+
+      div.execution {
+        z-index: -1;
+        position: absolute;
+        overflow: hidden;
+        left: 0;
+        right: 0;
+        top: 0;
+        background: white;
+      }
+
+      div.execution.stale {
+        z-index: -2;
       }
 
       span {
-        display:inline-block;
-        width:20px;
-        cursor:pointer;
+        display: inline-block;
+        width: 20px;
+        cursor: pointer;
       }
 
       span.active {
-        background:#ccc;
+        background: #888;
       }
     </style>
   </head>
