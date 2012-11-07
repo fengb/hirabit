@@ -140,11 +140,10 @@ var Branches = function(module) {
     var $field = $('<div class="field" />').appendTo('body');
     var $directives = $('<div class="directives" />').appendTo($field);
     $.each(directives, function(i, directive) {
-      var $directive = $('<div />').appendTo($directives);
+      var $directive = $('<div class="directive" />').appendTo($directives);
       $.each(directive, function(j) {
-        var $separation = $('<span>.</span>').appendTo($directive);
+        var $separation = $('<span class="cell">.</span>').appendTo($directive);
         $separation.click(function() {
-          /* Cannot be separation because we mutate the row. */
           directive[j] = !directive[j];
           $separation.toggleClass('active', directive);
           animateExecution(i);
@@ -152,25 +151,25 @@ var Branches = function(module) {
       });
     });
 
+    var cellHeight = parseInt($('span.cell').css('height'), 10);
+    var fieldHeight = parseInt($field.css('height'), 10);
     function animateExecution(changedRow) {
       var rows = module.Row.allFrom(directives);
-      var $oldExecutions = $('div.execution').addClass('stale');
+      var $staleExecutions = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
       for(var i = 0; i < rows.length; i++) {
-        var $row = $('<div />').appendTo($execution);
+        var $row = $('<div class="row" />').appendTo($execution);
         for(var j = 0; j < rows[i].length; j++) {
-          $row.append('<span>' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
+          $row.append('<span class="cell">' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
         }
       }
 
       var startDrawRow = (changedRow === undefined) ? 0               // Redraw everything
                                                     : changedRow + 1; // Changed row is drawn instantaneously.
-      var rowHeight = parseInt($execution.find('span').css('height'), 10);
-      var startHeight = rowHeight * startDrawRow;
-      var endHeight = rowHeight * rows.length;
+      var startHeight = cellHeight * startDrawRow;
       var animationDuration = (rows.length - startDrawRow) * 100;
-      $execution.css('height', startHeight).animate({height: endHeight}, animationDuration, 'linear', function() {
-        $oldExecutions.remove();
+      $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
+        $staleExecutions.remove();
       });
     }
     animateExecution();
