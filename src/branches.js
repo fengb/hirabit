@@ -175,8 +175,9 @@ var Branches = function(module) {
           var startDrawRow = (changedRow === undefined) ? 0 : changedRow + 1;
           var startHeight = cellHeight * startDrawRow;
           var animationDuration = (rows.length - startDrawRow) * 100;
+          var stale = $field.find('div.execution.stale');
           $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
-            $field.find('div.execution.stale').remove();
+            stale.remove();
           });
         }
       };
