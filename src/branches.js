@@ -130,7 +130,7 @@ var Branches = function(module) {
 
       var startDrawRow = (changedRow === undefined) ? 0               // Redraw everything
                                                     : changedRow + 1; // Changed row is drawn instantaneously.
-      var rowHeight = parseInt($execution.find('span').css('height'));
+      var rowHeight = parseInt($execution.find('span').css('height'), 10);
       var startHeight = rowHeight * startDrawRow;
       var endHeight = rowHeight * rows.length;
       var animationDuration = (rows.length - startDrawRow) * 100;
