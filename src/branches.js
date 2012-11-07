@@ -146,33 +146,43 @@ var Branches = function(module) {
         $separation.click(function() {
           directive[j] = !directive[j];
           $separation.toggleClass('active', directive);
-          animateExecution(i);
+          execution.rerun();
+          execution.animate(i);
         });
       });
     });
 
-    var cellHeight = parseInt($('span.cell').css('height'), 10);
-    var fieldHeight = parseInt($field.css('height'), 10);
-    function animateExecution(changedRow) {
-      var rows = module.Row.allFrom(directives);
-      var $staleExecutions = $('div.execution').addClass('stale');
-      var $execution = $('<div class="execution" />').appendTo($field);
-      for(var i = 0; i < rows.length; i++) {
-        var $row = $('<div class="row" />').appendTo($execution);
-        for(var j = 0; j < rows[i].length; j++) {
-          $row.append('<span class="cell">' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
-        }
-      }
+    var execution = function(){
+      var rows;
+      var $execution;
+      var cellHeight = parseInt($('span.cell').css('height'), 10);
+      var fieldHeight = parseInt($field.css('height'), 10);
 
-      var startDrawRow = (changedRow === undefined) ? 0               // Redraw everything
-                                                    : changedRow + 1; // Changed row is drawn instantaneously.
-      var startHeight = cellHeight * startDrawRow;
-      var animationDuration = (rows.length - startDrawRow) * 100;
-      $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
-        $staleExecutions.remove();
-      });
-    }
-    animateExecution();
+      return {
+        rerun: function() {
+          $('div.execution').addClass('stale');
+          rows = module.Row.allFrom(directives);
+          $execution = $('<div class="execution" />').appendTo($field);
+          for(var i = 0; i < rows.length; i++) {
+            var $row = $('<div class="row" />').appendTo($execution);
+            for(var j = 0; j < rows[i].length; j++) {
+              $row.append('<span class="cell">' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
+            }
+          }
+        },
+
+        animate: function(changedRow) {
+          var startDrawRow = (changedRow === undefined) ? 0 : changedRow + 1;
+          var startHeight = cellHeight * startDrawRow;
+          var animationDuration = (rows.length - startDrawRow) * 100;
+          $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
+            $field.find('div.execution.stale').remove();
+          });
+        }
+      };
+    }();
+
+    execution.rerun();
   };
 
   return module;
