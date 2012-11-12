@@ -134,56 +134,49 @@ var Branches = function(module) {
     }
   };
 
-  module.ui = function() {
-    var directives = module.Directive.many(8);
+  module.Game = function(numRows, onChange) {
+    onChange = onChange || function(){};
+    var directives = module.Directive.many(numRows);
+    var rows = module.Row.allFrom(directives);
+    onChange(directives, rows, 0);
 
+    return {
+      directives: directives,
+      rows: module.Row.allFrom(directives),
+
+      toggle: function(row, col) {
+        this.directives[row][col] = !this.directives[row][col];
+        this.rows = module.Row.allFrom(directives);
+        onChange(this.directives, this.rows, row);
+      }
+    };
+  };
+
+  module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
-    var $directives = $('<div class="directives" />').appendTo($field);
-    $.each(directives, function(i, directive) {
-      var $directive = $('<div class="directive" />').appendTo($directives);
-      $.each(directive, function(j) {
-        var $separation = $('<span class="cell">.</span>').appendTo($directive);
-        $separation.click(function() {
-          directive[j] = !directive[j];
-          $separation.toggleClass('active', directive);
-          execution.rerun();
-          execution.animate(i);
+    var cellHeight = 18;
+    var fieldHeight = 144;
+
+    var game = module.Game(8, function(directives, rows, changedRow) {
+      var $stale = $('div.execution').addClass('stale');
+      var $execution = $('<div class="execution" />').appendTo($field);
+      $.each(rows, function(r, row) {
+        var $row = $('<div class="row" />').appendTo($execution);
+        $.each(row, function(c) {
+          $cell = $('<span class="cell ' + directives[r][c] + '">' + rows[r][c].toString().replace(' ', '.') + '</span>').appendTo($row);
+          $cell.click(function() {
+            game.toggle(r, c);
+          });
         });
       });
+
+      var startDrawRow = changedRow + 1;
+      var startHeight = cellHeight * startDrawRow;
+      var animationDuration = (rows.length - startDrawRow) * 100;
+      $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
+        $stale.remove();
+      });
     });
-
-    var execution = function(){
-      var rows;
-      var $execution;
-      var cellHeight = parseInt($('span.cell').css('height'), 10);
-      var fieldHeight = parseInt($field.css('height'), 10);
-
-      return {
-        rerun: function() {
-          $('div.execution').addClass('stale');
-          rows = module.Row.allFrom(directives);
-          $execution = $('<div class="execution" />').appendTo($field);
-          for(var i = 0; i < rows.length; i++) {
-            var $row = $('<div class="row" />').appendTo($execution);
-            for(var j = 0; j < rows[i].length; j++) {
-              $row.append('<span class="cell">' + rows[i][j].toString().replace(' ', '&nbsp;') + '</span>');
-            }
-          }
-        },
-
-        animate: function(changedRow) {
-          var startDrawRow = (changedRow === undefined) ? 0 : changedRow + 1;
-          var startHeight = cellHeight * startDrawRow;
-          var animationDuration = (rows.length - startDrawRow) * 100;
-          var stale = $field.find('div.execution.stale');
-          $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
-            stale.remove();
-          });
-        }
-      };
-    }();
-
-    execution.rerun();
   };
 
   return module;
