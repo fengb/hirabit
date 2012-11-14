@@ -151,8 +151,6 @@ var Branches = function(module) {
 
   module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
-    var cellHeight = 18;
-    var fieldHeight = 144;
 
     var game = module.Game(8, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
@@ -160,15 +158,17 @@ var Branches = function(module) {
       $.each(game.rows, function(r, cols) {
         var $row = $('<div class="row" />').appendTo($execution);
         $.each(cols, function(c) {
-          $cell = $('<span class="cell ' + game.directives[r][c] + '">' + game.rows[r][c].toString().replace(' ', '.') + '</span>').appendTo($row);
-          $cell.click(function() {
+          var $cell = $('<span class="cell ' + game.directives[r][c] + '">' + game.rows[r][c].toString().replace(' ', '.') + '</span>');
+          $cell.appendTo($row).click(function() {
             game.toggle(r, c);
           });
         });
       });
 
       var startDrawRow = changedRow + 1;
+      var cellHeight = parseInt($('.cell').css('height'), 10);
       var startHeight = cellHeight * startDrawRow;
+      var fieldHeight = cellHeight * game.rows.length;
       var animationDuration = (game.rows.length - startDrawRow) * 100;
       $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
         $stale.remove();
