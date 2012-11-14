@@ -135,21 +135,18 @@ var Branches = function(module) {
   };
 
   module.Game = function(numRows, onChange) {
-    onChange = onChange || function(){};
-    var directives = module.Directive.many(numRows);
-    var rows = module.Row.allFrom(directives);
-    onChange(directives, rows, 0);
-
-    return {
-      directives: directives,
-      rows: module.Row.allFrom(directives),
-
-      toggle: function(row, col) {
-        this.directives[row][col] = !this.directives[row][col];
-        this.rows = module.Row.allFrom(directives);
-        onChange(this.directives, this.rows, row);
-      }
+    var game = {};
+    game.directives = module.Directive.many(numRows);
+    game.rows = module.Row.allFrom(game.directives);
+    game.onChange = onChange || function(){};
+    game.toggle = function(row, col) {
+      game.directives[row][col] = !game.directives[row][col];
+      game.rows = module.Row.allFrom(game.directives);
+      onChange(game, row);
     };
+
+    onChange(game, 0);
+    return game;
   };
 
   module.ui = function() {
@@ -157,13 +154,13 @@ var Branches = function(module) {
     var cellHeight = 18;
     var fieldHeight = 144;
 
-    var game = module.Game(8, function(directives, rows, changedRow) {
+    var game = module.Game(8, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
-      $.each(rows, function(r, row) {
+      $.each(game.rows, function(r, cols) {
         var $row = $('<div class="row" />').appendTo($execution);
-        $.each(row, function(c) {
-          $cell = $('<span class="cell ' + directives[r][c] + '">' + rows[r][c].toString().replace(' ', '.') + '</span>').appendTo($row);
+        $.each(cols, function(c) {
+          $cell = $('<span class="cell ' + game.directives[r][c] + '">' + game.rows[r][c].toString().replace(' ', '.') + '</span>').appendTo($row);
           $cell.click(function() {
             game.toggle(r, c);
           });
@@ -172,7 +169,7 @@ var Branches = function(module) {
 
       var startDrawRow = changedRow + 1;
       var startHeight = cellHeight * startDrawRow;
-      var animationDuration = (rows.length - startDrawRow) * 100;
+      var animationDuration = (game.rows.length - startDrawRow) * 100;
       $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
         $stale.remove();
       });
