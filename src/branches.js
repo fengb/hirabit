@@ -158,10 +158,11 @@ var Branches = function(module) {
       $.each(game.rows, function(r, cols) {
         var $row = $('<div class="row" />').appendTo($execution);
         $.each(cols, function(c) {
-          var $cell = $('<span class="cell ' + game.directives[r][c] + '">' + game.rows[r][c].toString().replace(' ', '.') + '</span>');
-          $cell.appendTo($row).click(function() {
-            game.toggle(r, c);
-          });
+          $('<span class="cell" />').
+            addClass(game.directives[r][c].toString()).addClass(game.rows[r][c].description).
+            appendTo($row).click(function() {
+              game.toggle(r, c);
+            });
         });
       });
 

@@ -25,15 +25,48 @@
         z-index: -2;
       }
 
-      span {
+      div.row {
+        margin-bottom: -5px;
+      }
+
+      span.cell {
+        box-sizing: border-box;
+        position: relative;
         display: inline-block;
         width: 20px;
+        height: 20px;
+        margin-right: -1px;
+        border: 1px solid black;
         cursor: pointer;
       }
 
-      span.true {
+      span.cell.true {
         background: #ccc;
       }
+
+      span.cell:after {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+
+      span.cell.left:after {
+        content: '<';
+      }
+
+      span.cell.right:after {
+        content: '>';
+      }
+
+      span.cell.branch:after {
+        content: 'X';
+      }
+
+      span.cell.merge:after {
+        content: '*';
+      }
+
     </style>
   </head>
   <body>
