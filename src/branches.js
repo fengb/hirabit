@@ -134,6 +134,25 @@ var Branches = function(module) {
     }
   };
 
+  module.Target = {
+    fromString: function(string) {
+      var target = [];
+      for(var i=0; i < string.length; i++) {
+        switch(string[i]) {
+          case 'X':
+            target[i] = false;
+            break;
+          case 'O':
+            target[i] = true;
+            break;
+          default:
+            target[i] = null;
+        }
+      }
+      return target;
+    }
+  };
+
   module.Game = function(numRows, onChange) {
     var game = {};
     game.directives = module.Directive.many(numRows);
