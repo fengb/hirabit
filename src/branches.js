@@ -149,6 +149,15 @@ var Branches = function(module) {
             target[i] = null;
         }
       }
+
+      target.match = function(row) {
+        for(var i=0; i < this.length; i++) {
+          if(this[i] !== null && this[i] !== row[i].isActive()) {
+            return false;
+          }
+        }
+        return true;
+      };
       return target;
     }
   };
