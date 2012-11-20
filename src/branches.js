@@ -26,7 +26,8 @@ var Branches = function(module) {
         description: description,
         left: left,
         right: right,
-        toString: function() { return symbol; }
+        toString: function() { return symbol; },
+        isActive: function() { return left || right; }
       };
       return Node.values[symbol];
     }
