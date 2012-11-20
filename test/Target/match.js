@@ -1,9 +1,15 @@
 module('Branches.Target:match()', {
   setup: function() {
-    function runMatch(targetString, active) {
+    var active = {isActive: function(){return true;}};
+    var inactive = {isActive: function(){return false;}};
+
+    function runMatch(targetString, actives) {
       var target = Branches.Target.fromString(targetString);
-      var value = {isActive: function(){return active;}};
-      return target.match([value]);
+      var objs = [];
+      for(var i=0; i < actives.length; i++) {
+        objs[i] = (actives[i] === ' ') ? inactive : active;
+      }
+      return target.match(objs);
     }
 
     this.testMatch = function(targetString, active) {
@@ -17,22 +23,33 @@ module('Branches.Target:match()', {
 });
 
 test('"O" matches active', function() {
-  this.testMatch('O', true);
+  this.testMatch('O', 'a');
 });
 
 test('"O" does not match inactive', function() {
-  this.testNotMatch('O', false);
+  this.testNotMatch('O', ' ');
 });
 
 test('"X" matches inactive', function() {
-  this.testMatch('X', false);
+  this.testMatch('X', ' ');
 });
 
 test('"X" does not match active', function() {
-  this.testNotMatch('X', true);
+  this.testNotMatch('X', 'a');
 });
 
 test('" " matches anything', function() {
-  this.testMatch(' ', true);
-  this.testMatch(' ', false);
+  this.testMatch(' ', 'a');
+  this.testMatch(' ', ' ');
+});
+
+test('array matches', function() {
+  this.testMatch('OX', 'a ');
+  this.testMatch('OX', 'a ');
+});
+
+test('array non matches', function() {
+  this.testNotMatch('OX', ' a');
+  this.testNotMatch('OX', '  ');
+  this.testNotMatch('OX', 'aa');
 });
