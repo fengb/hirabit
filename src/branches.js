@@ -145,14 +145,14 @@ var Branches = function(module) {
       onChange(game, row);
     };
 
-    onChange(game, 0);
+    onChange(game);
     return game;
   };
 
   module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
 
-    var game = module.Game(8, function(game, changedRow) {
+    var game = module.Game(20, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
       $.each(game.rows, function(r, cols) {
@@ -166,14 +166,16 @@ var Branches = function(module) {
         });
       });
 
-      var startDrawRow = changedRow + 1;
-      var cellHeight = parseInt($('.cell').css('height'), 10);
-      var startHeight = cellHeight * startDrawRow;
-      var fieldHeight = cellHeight * game.rows.length;
-      var animationDuration = (game.rows.length - startDrawRow) * 100;
-      $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
-        $stale.remove();
-      });
+      if(changedRow !== undefined) {
+        var startDrawRow = changedRow + 1;
+        var cellHeight = parseInt($('span.cell').css('height'), 10);
+        var startHeight = cellHeight * startDrawRow;
+        var fieldHeight = cellHeight * game.rows.length;
+        var animationDuration = (game.rows.length - startDrawRow) * 10;
+        $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
+          $stale.remove();
+        });
+      }
     });
   };
 
