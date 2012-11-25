@@ -3,21 +3,21 @@ module('Branches.Target:match()', {
     var active = {isActive: function(){return true;}};
     var inactive = {isActive: function(){return false;}};
 
-    function runMatch(targetString, actives) {
+    function runMatch(targetString, activeString) {
       var target = Branches.Target.fromString(targetString);
       var objs = [];
-      for(var i=0; i < actives.length; i++) {
-        objs[i] = (actives[i] === ' ') ? inactive : active;
+      for(var i=0; i < activeString.length; i++) {
+        objs[i] = (activeString[i] === ' ') ? inactive : active;
       }
       return target.match(objs);
     }
 
-    this.testMatch = function(targetString, active) {
-      ok(runMatch(targetString, active));
+    this.testMatch = function(targetString, activeString) {
+      ok(runMatch(targetString, activeString));
     };
 
-    this.testNotMatch = function(targetString, active) {
-      ok(!runMatch(targetString, active));
+    this.testNotMatch = function(targetString, activeString) {
+      ok(!runMatch(targetString, activeString));
     };
   }
 });
@@ -45,7 +45,7 @@ test('" " matches anything', function() {
 
 test('array matches', function() {
   this.testMatch('OX', 'a ');
-  this.testMatch('OX', 'a ');
+  this.testMatch('XO', ' a');
 });
 
 test('array non matches', function() {
