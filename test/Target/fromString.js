@@ -27,3 +27,8 @@ test('" " is considered null', function() {
 test('multi character string', function() {
   this.equalStringValues('X O', {3: [false, null, true]});
 });
+
+test('multi row string', function() {
+  this.equalStringValues('OO\nOOOO', {2: [true, true],
+                                      4: [true, true, true, true]});
+});
