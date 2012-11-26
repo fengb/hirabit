@@ -156,6 +156,12 @@ var Branches = function(module) {
         }
       }
 
+      for(i=0; i < target.length; i++) {
+        if(target[i] === undefined) {
+          target[i] = [];
+        }
+      }
+
       target.match = function(row) {
         var targetRow = this[row.length];
         if(targetRow) {
