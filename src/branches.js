@@ -151,7 +151,7 @@ var Branches = function(module) {
               targetRow[j] = true;
               break;
             default:
-              targetRow[j] = null;
+              targetRow[j] = undefined;
           }
         }
       }
@@ -160,7 +160,7 @@ var Branches = function(module) {
         var targetRow = this[row.length];
         if(targetRow) {
           for(var i=0; i < targetRow.length; i++) {
-            if(targetRow[i] !== null && targetRow[i] !== row[i].isActive()) {
+            if(targetRow[i] !== undefined && targetRow[i] !== row[i].isActive()) {
               return false;
             }
           }

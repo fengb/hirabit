@@ -5,7 +5,7 @@ module('Branches.Target.fromstring()', {
       for(var k in values) {
         equal(target[k].length, values[k].length);
         for(var i=0; i < values[k].length; i++) {
-          equal(target[k][i], values[k][i]);
+          strictEqual(target[k][i], values[k][i]);
         }
       }
     };
@@ -20,12 +20,12 @@ test('"O" is considered true', function() {
   this.equalStringValues('O', {1: [true]});
 });
 
-test('" " is considered null', function() {
-  this.equalStringValues(' ', {1: [null]});
+test('" " is considered undefined', function() {
+  this.equalStringValues(' ', {1: [undefined]});
 });
 
 test('multi character string', function() {
-  this.equalStringValues('X O', {3: [false, null, true]});
+  this.equalStringValues('X O', {3: [false, undefined, true]});
 });
 
 test('multi row string', function() {
