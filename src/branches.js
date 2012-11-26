@@ -138,10 +138,11 @@ var Branches = function(module) {
   module.Target = {
     fromString: function(string) {
       var lines = string.split('\n');
-      var target = [];
+      var target = {length: 0};
       for(var i=0; i < lines.length; i++) {
         var line = lines[i];
         var targetRow = target[line.length] = [];
+        target.length = Math.max(target.length, line.length);
         for(var j=0; j < line.length; j++) {
           switch(line[j]) {
             case 'X':
@@ -181,7 +182,8 @@ var Branches = function(module) {
     }
   };
 
-  module.Game = function(numRows, onChange) {
+  module.Game = function(target, onChange) {
+    var numRows = target.length;
     var game = {};
     game.directives = module.Directive.many(numRows);
     game.rows = module.Row.allFrom(game.directives);
@@ -199,7 +201,8 @@ var Branches = function(module) {
   module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
 
-    var game = module.Game(20, function(game, changedRow) {
+    var target = module.Target.fromString('XXXXXXXXXXXXXXXXXXXX');
+    var game = module.Game(target, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
       $.each(game.rows, function(r, cols) {
