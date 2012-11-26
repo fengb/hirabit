@@ -207,7 +207,8 @@ var Branches = function(module) {
             r: i,
             c: j,
             description: rows[i][j].description,
-            directive: directives[i][j]
+            directive: directives[i][j],
+            target: target[rows[i].length][j]
           });
         }
       }
@@ -221,7 +222,7 @@ var Branches = function(module) {
   module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
 
-    var target = module.Target.fromString('XXXXXXXXXXXXXXXXXXXX');
+    var target = module.Target.fromString(' XXXXXXXXXXXXXXXXXX ');
     var game = module.Game(target, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
@@ -232,8 +233,19 @@ var Branches = function(module) {
           $row = $('<div class="row" />').appendTo($execution);
           lastR = cell.r;
         }
+
+        var classes = [
+          cell.description,
+          cell.directive.toString(),
+        ];
+        if(cell.target === true) {
+          classes.push('target');
+        } else if(cell.target === false) {
+          classes.push('untarget');
+        }
+
         $('<span class="cell" />').
-          addClass(cell.directive.toString()).addClass(cell.description).
+          addClass(classes.join(' ')).
           appendTo($row).click(function() {
             game.toggle(cell.r, cell.c);
           });
