@@ -158,9 +158,11 @@ var Branches = function(module) {
 
       target.match = function(row) {
         var targetRow = this[row.length];
-        for(var i=0; i < targetRow.length; i++) {
-          if(targetRow[i] !== null && targetRow[i] !== row[i].isActive()) {
-            return false;
+        if(targetRow) {
+          for(var i=0; i < targetRow.length; i++) {
+            if(targetRow[i] !== null && targetRow[i] !== row[i].isActive()) {
+              return false;
+            }
           }
         }
         return true;
