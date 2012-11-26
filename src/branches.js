@@ -26,7 +26,8 @@ var Branches = function(module) {
         description: description,
         left: left,
         right: right,
-        toString: function() { return symbol; }
+        toString: function() { return symbol; },
+        isActive: function() { return left || right; }
       };
       return Node.values[symbol];
     }
@@ -131,6 +132,52 @@ var Branches = function(module) {
         }
       }
       return directives;
+    }
+  };
+
+  module.Target = {
+    fromString: function(string) {
+      var lines = string.split('\n');
+      var target = [];
+      for(var i=0; i < lines.length; i++) {
+        var line = lines[i];
+        var targetRow = target[line.length] = [];
+        for(var j=0; j < line.length; j++) {
+          switch(line[j]) {
+            case 'X':
+              targetRow[j] = false;
+              break;
+            case 'O':
+              targetRow[j] = true;
+              break;
+            default:
+              targetRow[j] = null;
+          }
+        }
+      }
+
+      target.match = function(row) {
+        var targetRow = this[row.length];
+        if(targetRow) {
+          for(var i=0; i < targetRow.length; i++) {
+            if(targetRow[i] !== null && targetRow[i] !== row[i].isActive()) {
+              return false;
+            }
+          }
+        }
+        return true;
+      };
+
+      target.matchAll = function(rows) {
+        for(var i=0; i < rows.length; i++) {
+          if(!this.match(rows[i])) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      return target;
     }
   };
 
