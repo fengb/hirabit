@@ -167,6 +167,16 @@ var Branches = function(module) {
         }
         return true;
       };
+
+      target.matchAll = function(rows) {
+        for(var i=0; i < rows.length; i++) {
+          if(!this.match(rows[i])) {
+            return false;
+          }
+        }
+        return true;
+      };
+
       return target;
     }
   };
