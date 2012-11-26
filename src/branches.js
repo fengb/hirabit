@@ -138,11 +138,10 @@ var Branches = function(module) {
   module.Target = {
     fromString: function(string) {
       var lines = string.split('\n');
-      var target = {length: 0};
+      var target = [];
       for(var i=0; i < lines.length; i++) {
         var line = lines[i];
         var targetRow = target[line.length] = [];
-        target.length = Math.max(target.length, line.length);
         for(var j=0; j < line.length; j++) {
           switch(line[j]) {
             case 'X':
@@ -183,7 +182,7 @@ var Branches = function(module) {
   };
 
   module.Game = function(target, onChange) {
-    var game = {height: target.length};
+    var game = {height: target.length - 1};
     var directives = module.Directive.many(game.height);
     var rows = module.Row.allFrom(directives);
     onChange = onChange || function(){};

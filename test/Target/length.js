@@ -7,13 +7,13 @@ module('Branches.Target:length', {
   }
 });
 
-test('length of single segment', function() {
-  this.testLength('O', 1);
-  this.testLength('XOX', 3);
+test('length of single segment is line length + 1', function() {
+  this.testLength('O', 2);
+  this.testLength('XOX', 4);
 });
 
-test('length of multi segment is longest', function() {
-  this.testLength('X', 1);
-  this.testLength('OOO', 3);
-  this.testLength('XXXXXO', 6);
+test('length of multi segment is longest + 1', function() {
+  this.testLength('X', 2);
+  this.testLength('OOO', 4);
+  this.testLength('XXXXXO', 7);
 });
