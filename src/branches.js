@@ -193,10 +193,10 @@ var Branches = function(module) {
     var rows = module.Row.allFrom(directives);
     onChange = onChange || function(){};
 
-    game.toggle = function(row, col) {
-      directives[row][col] = !directives[row][col];
+    game.toggle = function(cell) {
+      directives[cell.r][cell.c] = !directives[cell.r][cell.c];
       rows = module.Row.allFrom(directives);
-      onChange(game, row);
+      onChange(game, cell.r);
     };
 
     game.cells = function() {
@@ -247,7 +247,7 @@ var Branches = function(module) {
         $('<span class="cell" />').
           addClass(classes.join(' ')).
           appendTo($row).click(function() {
-            game.toggle(cell.r, cell.c);
+            game.toggle(cell);
           });
       });
 
