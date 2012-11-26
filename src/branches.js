@@ -137,23 +137,29 @@ var Branches = function(module) {
 
   module.Target = {
     fromString: function(string) {
+      var lines = string.split('\n');
       var target = [];
-      for(var i=0; i < string.length; i++) {
-        switch(string[i]) {
-          case 'X':
-            target[i] = false;
-            break;
-          case 'O':
-            target[i] = true;
-            break;
-          default:
-            target[i] = null;
+      for(var i=0; i < lines.length; i++) {
+        var line = lines[i];
+        var targetRow = target[line.length] = [];
+        for(var j=0; j < line.length; j++) {
+          switch(line[j]) {
+            case 'X':
+              targetRow[j] = false;
+              break;
+            case 'O':
+              targetRow[j] = true;
+              break;
+            default:
+              targetRow[j] = null;
+          }
         }
       }
 
       target.match = function(row) {
-        for(var i=0; i < this.length; i++) {
-          if(this[i] !== null && this[i] !== row[i].isActive()) {
+        var targetRow = this[row.length];
+        for(var i=0; i < targetRow.length; i++) {
+          if(targetRow[i] !== null && targetRow[i] !== row[i].isActive()) {
             return false;
           }
         }
