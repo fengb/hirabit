@@ -2,26 +2,28 @@ module('Branches.Target.fromstring()', {
   setup: function() {
     this.equalStringValues = function(targetString, values) {
       var target = Branches.Target.fromString(targetString);
-      equal(target.length, values.length);
-      for(var i=0; i < target.length; i++) {
-        equal(target[i], values[i]);
+      for(var k in values) {
+        equal(target[k].length, values[k].length);
+        for(var i=0; i < values[k].length; i++) {
+          equal(target[k][i], values[k][i]);
+        }
       }
     };
   }
 });
 
 test('"X" is considered false', function() {
-  this.equalStringValues('X', [false]);
+  this.equalStringValues('X', {1: [false]});
 });
 
 test('"O" is considered true', function() {
-  this.equalStringValues('O', [true]);
+  this.equalStringValues('O', {1: [true]});
 });
 
 test('" " is considered null', function() {
-  this.equalStringValues(' ', [null]);
+  this.equalStringValues(' ', {1: [null]});
 });
 
 test('multi character string', function() {
-  this.equalStringValues('X O', [false, null, true]);
+  this.equalStringValues('X O', {3: [false, null, true]});
 });
