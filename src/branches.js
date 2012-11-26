@@ -183,15 +183,30 @@ var Branches = function(module) {
   };
 
   module.Game = function(target, onChange) {
-    var numRows = target.length;
-    var game = {};
-    game.directives = module.Directive.many(numRows);
-    game.rows = module.Row.allFrom(game.directives);
-    game.onChange = onChange || function(){};
+    var game = {height: target.length};
+    var directives = module.Directive.many(game.height);
+    var rows = module.Row.allFrom(directives);
+    onChange = onChange || function(){};
+
     game.toggle = function(row, col) {
-      game.directives[row][col] = !game.directives[row][col];
-      game.rows = module.Row.allFrom(game.directives);
+      directives[row][col] = !directives[row][col];
+      rows = module.Row.allFrom(directives);
       onChange(game, row);
+    };
+
+    game.cells = function() {
+      var cells = [];
+      for(var i=0; i < rows.length; i++) {
+        for(var j=0; j < rows[i].length; j++) {
+          cells.push({
+            r: i,
+            c: j,
+            description: rows[i][j].description,
+            directive: directives[i][j]
+          });
+        }
+      }
+      return cells;
     };
 
     onChange(game);
@@ -205,23 +220,26 @@ var Branches = function(module) {
     var game = module.Game(target, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);
-      $.each(game.rows, function(r, cols) {
-        var $row = $('<div class="row" />').appendTo($execution);
-        $.each(cols, function(c) {
-          $('<span class="cell" />').
-            addClass(game.directives[r][c].toString()).addClass(game.rows[r][c].description).
-            appendTo($row).click(function() {
-              game.toggle(r, c);
-            });
-        });
+      var $row;
+      var lastR;
+      $.each(game.cells(), function(i, cell) {
+        if(lastR !== cell.r) {
+          $row = $('<div class="row" />').appendTo($execution);
+          lastR = cell.r;
+        }
+        $('<span class="cell" />').
+          addClass(cell.directive.toString()).addClass(cell.description).
+          appendTo($row).click(function() {
+            game.toggle(cell.r, cell.c);
+          });
       });
 
       if(changedRow !== undefined) {
         var startDrawRow = changedRow + 1;
         var cellHeight = parseInt($('span.cell').css('height'), 10);
         var startHeight = cellHeight * startDrawRow;
-        var fieldHeight = cellHeight * game.rows.length;
-        var animationDuration = (game.rows.length - startDrawRow) * 10;
+        var fieldHeight = cellHeight * game.height;
+        var animationDuration = (game.height - startDrawRow) * 10;
         $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
           $stale.remove();
         });
