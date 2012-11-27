@@ -207,7 +207,7 @@ var Branches = function(module) {
             r: i,
             c: j,
             description: rows[i][j].description,
-            directive: directives[i][j],
+            split: directives[i][j],
             target: target[rows[i].length][j]
           });
         }
@@ -235,9 +235,11 @@ var Branches = function(module) {
         }
 
         var classes = [
-          cell.description,
-          cell.directive.toString(),
+          cell.description
         ];
+        if(cell.split) {
+          classes.push('split');
+        }
         if(cell.target === true) {
           classes.push('target');
         } else if(cell.target === false) {
