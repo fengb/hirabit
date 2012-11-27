@@ -222,7 +222,7 @@ var Branches = function(module) {
   module.ui = function() {
     var $field = $('<div class="field" />').appendTo('body');
 
-    var target = module.Target.fromString(' XXXXXXXXXXXXXXXXXX ');
+    var target = module.Target.fromString('OXXXXXXXXXXXXXXXXXXO');
     var game = module.Game(target, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);

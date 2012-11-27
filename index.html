@@ -30,6 +30,7 @@
         width: 20px;
         height: 20px;
         vertical-align: bottom;
+        font-weight: bold;
         cursor: pointer;
       }
 
@@ -37,26 +38,23 @@
         background: #eee;
       }
 
-      span.cell.split {
-        -webkit-box-shadow: inset 0 0 8px #000;
-        -moz-box-shadow: inset 0 0 8px #000;
-        -o-box-shadow: inset 0 0 8px #000;
-        box-shadow: inset 0 0 8px #000;
-      }
-
+      span.cell:before,
       span.cell:after {
         display: block;
         position: absolute;
+        content: '';
         left: 0;
         right: 0;
+        top: 0;
+        bottom: 0;
       }
 
       span.cell.left:after {
-        content: '/';
+        content: '/\a0';
       }
 
       span.cell.right:after {
-        content: '\5c';
+        content: '\a0\5c';
       }
 
       span.cell.branch:after {
@@ -65,6 +63,14 @@
 
       span.cell.merge:after {
         content: '\203e';
+      }
+
+      span.cell.target:before {
+        background: #6c8;
+      }
+
+      span.cell.untarget:before {
+        background: #f66;
       }
 
     </style>
