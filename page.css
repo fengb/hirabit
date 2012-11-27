@@ -1,0 +1,66 @@
+div.field {
+  position: relative;
+  text-align: center;
+}
+
+div.execution {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: white;
+}
+
+div.execution.stale {
+  z-index: -1;
+}
+
+span.cell {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: bottom;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+span.cell:hover {
+  background: #eee;
+}
+
+span.cell:before,
+span.cell:after {
+  display: block;
+  position: absolute;
+  content: '';
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+span.cell.left:after {
+  content: '/\a0';
+}
+
+span.cell.right:after {
+  content: '\a0\5c';
+}
+
+span.cell.branch:after {
+  content: '/\5c';
+}
+
+span.cell.merge:after {
+  content: '\203e';
+}
+
+span.cell.target:before {
+  background: #6c8;
+}
+
+span.cell.untarget:before {
+  background: #f66;
+}
