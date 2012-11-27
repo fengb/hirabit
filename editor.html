@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html class='no-js'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <title>Branches Editor</title>
+    <script>document.documentElement.className='js'</script>
+    <link rel='stylesheet' media='all' href='page.css' />
+    <style>
+      span.cell {
+        -webkit-box-shadow: inset 0 0 1px #000;
+        -moz-box-shadow: inset 0 0 1px #000;
+        -o-box-shadow: inset 0 0 1px #000;
+        box-shadow: inset 0 0 1px #000;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>Javascript required.  Sowwy!</noscript>
+    <script src='vendor/jquery.js'></script>
+    <script src='src/branches.js'></script>
+    <script>
+      (function(){
+        var $field = $('<div class="field" />').appendTo('body');
+
+        for(var i = 0; i < 20; i++) {
+          var $row = $('<div class="row" />').appendTo($field);
+          for(var j = 0; j < i; j++) {
+            $('<span class="cell" />').appendTo($row).click(function(evt) {
+              var $cell = $(evt.target);
+              if($cell.hasClass('target')) {
+                $cell.removeClass('target').addClass('untarget');
+              } else if($cell.hasClass('untarget')) {
+                $cell.removeClass('untarget');
+              } else {
+                $cell.addClass('target');
+              }
+            });
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
