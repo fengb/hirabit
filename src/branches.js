@@ -187,7 +187,8 @@ var Branches = function(module) {
     }
   };
 
-  module.Game = function(target, onChange) {
+  module.Game = function(targetString, onChange) {
+    var target = module.Target.fromString(targetString);
     var game = {height: target.length - 1};
     var directives = module.Directive.many(game.height);
     var rows = module.Row.allFrom(directives);
@@ -219,10 +220,9 @@ var Branches = function(module) {
     return game;
   };
 
-  module.ui = function() {
-    var $field = $('<div class="field" />').appendTo('body');
+  module.ui = function(target, $field) {
+    $field = $field || $('<div class="field" />').appendTo('body');
 
-    var target = module.Target.fromString('OXXXXXXXXXXXXXXXXXXO');
     var game = module.Game(target, function(game, changedRow) {
       var $stale = $('div.execution').addClass('stale');
       var $execution = $('<div class="execution" />').appendTo($field);

@@ -7,6 +7,11 @@
     <script>document.documentElement.className='js'</script>
     <link rel='stylesheet' media='all' href='page.css' />
     <style>
+      div.field {
+        float: left;
+        width: 50%;
+      }
+
       span.cell {
         -webkit-box-shadow: inset 0 0 1px #000;
         -moz-box-shadow: inset 0 0 1px #000;
@@ -16,29 +21,48 @@
     </style>
   </head>
   <body>
-    <noscript>Javascript required.  Sowwy!</noscript>
+    <div id='editor' class='field'></div>
+    <div id='game' class='field'></div>
     <script src='vendor/jquery.js'></script>
     <script src='src/branches.js'></script>
     <script>
-      (function(){
-        var $field = $('<div class="field" />').appendTo('body');
+      function editorTarget() {
+        var targetRows = [];
 
-        for(var i = 0; i < 20; i++) {
-          var $row = $('<div class="row" />').appendTo($field);
-          for(var j = 0; j < i; j++) {
-            $('<span class="cell" />').appendTo($row).click(function(evt) {
-              var $cell = $(evt.target);
-              if($cell.hasClass('target')) {
-                $cell.removeClass('target').addClass('untarget');
-              } else if($cell.hasClass('untarget')) {
-                $cell.removeClass('untarget');
-              } else {
-                $cell.addClass('target');
-              }
-            });
-          }
+        $('#editor div.row').each(function(i, row) {
+          var targetRow = []
+          $(row).find('span.cell').each(function(j, cell) {
+            if($(cell).hasClass('target')) {
+              targetRow.push('O');
+            } else if($(cell).hasClass('untarget')) {
+              targetRow.push('X');
+            } else {
+              targetRow.push(' ');
+            }
+          });
+          targetRows.push(targetRow.join(''));
+        });
+
+        return targetRows.join('\n');
+      }
+
+      for(var i = 0; i < 20; i++) {
+        var $row = $('<div class="row" />').appendTo('#editor');
+        for(var j = 0; j < i; j++) {
+          $('<span class="cell" />').appendTo($row).click(function(evt) {
+            var $cell = $(evt.target);
+            if($cell.hasClass('target')) {
+              $cell.removeClass('target').addClass('untarget');
+            } else if($cell.hasClass('untarget')) {
+              $cell.removeClass('untarget');
+            } else {
+              $cell.addClass('target');
+            }
+
+            Branches.ui(editorTarget(), $('#game'));
+          });
         }
-      })();
+      }
     </script>
   </body>
 </html>
