@@ -7,7 +7,7 @@
     <script>document.documentElement.className='js'</script>
     <link rel='stylesheet' media='all' href='page.css' />
     <style>
-      div.field {
+      div.branches {
         float: left;
         width: 50%;
       }
@@ -29,8 +29,8 @@
     </style>
   </head>
   <body>
-    <div id='editor' class='field'></div>
-    <div id='game' class='field'></div>
+    <div id='editor' class='branches'></div>
+    <div id='game'></div>
     <textarea></textarea>
     <script src='vendor/jquery.js'></script>
     <script src='src/branches.js'></script>
@@ -73,7 +73,6 @@
           $('<span class="cell" />').appendTo($row).click(function(evt) {
             $(evt.target).toggleClass('target');
 
-            $('#game').empty();
             $('textarea').val(editorTarget().replace(/\n/g, '\\n'));
             Branches.ui(editorTarget(), $('#game'));
           });
