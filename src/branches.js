@@ -21,22 +21,22 @@ var Branches = function(module) {
   };
 
   module.Row = function() {
-    function Node(symbol, description, left, right) {
+    function Node(symbol, description, left, right, active) {
       Node.values[symbol] = {
         description: description,
         left: left,
         right: right,
-        toString: function() { return symbol; },
-        isActive: function() { return left || right; }
+        active: active,
+        toString: function() { return symbol; }
       };
       return Node.values[symbol];
     }
     Node.values = [];
-    Node.left =    Node('<',   'left',  true, false);
-    Node.right =   Node('>',  'right', false,  true);
-    Node.branch =  Node('X', 'branch',  true,  true);
-    Node.none =    Node(' ',  'empty', false, false);
-    Node.merge =   Node('*',  'merge', false, false);
+    Node.left =    Node('<',   'left',  true, false, true);
+    Node.right =   Node('>',  'right', false,  true, true);
+    Node.branch =  Node('X', 'branch',  true,  true, true);
+    Node.merge =   Node('*',  'merge', false, false, true);
+    Node.none =    Node(' ',  'empty', false, false, false);
 
     function init(array) {
       for(var method in instanceMethods) {
@@ -166,7 +166,7 @@ var Branches = function(module) {
         var targetRow = this[row.length];
         if(targetRow) {
           for(var i=0; i < targetRow.length; i++) {
-            if(targetRow[i] !== undefined && targetRow[i] !== row[i].isActive()) {
+            if(targetRow[i] !== undefined && targetRow[i] !== row[i].active) {
               return false;
             }
           }

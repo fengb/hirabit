@@ -64,7 +64,7 @@ span.cell.branch:after {
 }
 
 span.cell.merge:after {
-  content: '\203e';
+  content: '*';
 }
 
 span.cell.target:before {
