@@ -30,7 +30,6 @@ span.cell:hover {
   background: #eee;
 }
 
-span.cell:before,
 span.cell:after {
   display: block;
   position: absolute;
@@ -39,6 +38,17 @@ span.cell:after {
   right: 0;
   top: 0;
   bottom: 0;
+}
+
+span.cell:before {
+  display: block;
+  position: absolute;
+  content: '';
+  left: 1px;
+  right: 1px;
+  top: 1px;
+  bottom: 1px;
+  border-radius: 10px;
 }
 
 span.cell.left:after {
