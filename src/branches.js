@@ -21,23 +21,22 @@ var Branches = function(module) {
   };
 
   module.Row = function() {
-    function Node(symbol, description, left, right, active, strokes) {
+    function Node(symbol, description, left, right, active) {
       Node.values[symbol] = {
         description: description,
         left: left,
         right: right,
         active: active,
-        strokes: strokes,
         toString: function() { return symbol; }
       };
       return Node.values[symbol];
     }
     Node.values = [];
-    Node.left =    Node('<',   'left',  true, false, true, 1);
-    Node.right =   Node('>',  'right', false,  true, true, 1);
-    Node.branch =  Node('X', 'branch',  true,  true, true, 2);
-    Node.merge =   Node('*',  'merge', false, false, true, 1);
-    Node.none =    Node(' ',  'empty', false, false, false, 0);
+    Node.left =    Node('<',   'left',  true, false, true);
+    Node.right =   Node('>',  'right', false,  true, true);
+    Node.branch =  Node('X', 'branch',  true,  true, true);
+    Node.merge =   Node('*',  'merge', false, false, true);
+    Node.none =    Node(' ',  'empty', false, false, false);
 
     function init(array) {
       for(var method in instanceMethods) {
@@ -81,10 +80,10 @@ var Branches = function(module) {
 
       strokes: function() {
         var strokes = 0;
-        for(var i=0; i < this.length; i++) {
-          strokes += this[i].strokes;
+        for(var i=1; i < this.length - 1; i++) {
+          strokes += this[i].active ? 1 : 0;
         }
-        return strokes - 2;
+        return strokes;
       },
 
       equivalentTo: function(that) {
