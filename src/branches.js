@@ -186,6 +186,20 @@ var Branches = function(module) {
     }
   };
 
+  module.Levels = function(levelsData) {
+    var levelsByName = {};
+    for(var i=0; i < levelsData.length; i++) {
+      var name = levelsData[i].name;
+      levelsByName[name] = levelsData[i];
+    }
+
+    return {
+      score: function(game) {
+        return;
+      }
+    };
+  };
+
   module.Game = function(level, onChange) {
     var target = module.Target.fromString(level.target);
     var game = {height: target.length - 1};
