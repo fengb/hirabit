@@ -1,13 +1,10 @@
 module('Branches.Target:match()', {
   setup: function() {
-    var active = {isActive: function(){return true;}};
-    var inactive = {isActive: function(){return false;}};
-
     function runMatch(targetString, activeString) {
       var target = Branches.Target.fromString(targetString);
       var objs = [];
       for(var i=0; i < activeString.length; i++) {
-        objs[i] = (activeString[i] === ' ') ? inactive : active;
+        objs[i] = {active: activeString[i] !== ' '};
       }
       return target.match(objs);
     }

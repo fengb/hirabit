@@ -21,23 +21,23 @@ var Branches = function(module) {
   };
 
   module.Row = function() {
-    function Node(symbol, description, left, right, points) {
+    function Node(symbol, description, left, right, active, points) {
       Node.values[symbol] = {
         description: description,
         left: left,
         right: right,
+        active: active,
         points: points,
-        toString: function() { return symbol; },
-        isActive: function() { return left || right; }
+        toString: function() { return symbol; }
       };
       return Node.values[symbol];
     }
     Node.values = [];
-    Node.left =    Node('<',   'left',  true, false, 1);
-    Node.right =   Node('>',  'right', false,  true, 1);
-    Node.branch =  Node('X', 'branch',  true,  true, 2);
-    Node.none =    Node(' ',  'empty', false, false, 0);
-    Node.merge =   Node('*',  'merge', false, false, 1);
+    Node.left =    Node('<',   'left',  true, false, true, 1);
+    Node.right =   Node('>',  'right', false,  true, true, 1);
+    Node.branch =  Node('X', 'branch',  true,  true, true, 2);
+    Node.merge =   Node('*',  'merge', false, false, true, 1);
+    Node.none =    Node(' ',  'empty', false, false, false, 0);
 
     function init(array) {
       for(var method in instanceMethods) {
@@ -175,7 +175,7 @@ var Branches = function(module) {
         var targetRow = this[row.length];
         if(targetRow) {
           for(var i=0; i < targetRow.length; i++) {
-            if(targetRow[i] !== undefined && targetRow[i] !== row[i].isActive()) {
+            if(targetRow[i] !== undefined && targetRow[i] !== row[i].active) {
               return false;
             }
           }
@@ -247,7 +247,7 @@ var Branches = function(module) {
         points -= rows[i].points();
       }
       return points;
-    }
+    };
 
     onChange(game);
     return game;
