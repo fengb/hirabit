@@ -187,15 +187,20 @@ var Branches = function(module) {
   };
 
   module.Levels = function(levelsData) {
-    var levelsByName = {};
+    var strokes = {};
+    var levelsDataByName = {};
     for(var i=0; i < levelsData.length; i++) {
       var name = levelsData[i].name;
-      levelsByName[name] = levelsData[i];
+      levelsDataByName[name] = levelsData[i];
     }
 
     return {
-      score: function(game) {
-        return;
+      score: function(name, score) {
+        if(score !== undefined) {
+          strokes[name] = Math.min(score, strokes[name] || 99999999);
+        } else if(name in strokes) {
+          return strokes[name] - levelsDataByName[name].par;
+        }
       }
     };
   };
