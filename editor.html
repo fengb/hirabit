@@ -74,7 +74,7 @@
             $(evt.target).toggleClass('target');
 
             $('textarea').val(editorTarget().replace(/\n/g, '\\n'));
-            Branches.ui(editorTarget(), $('#game'));
+            Branches.ui({target: editorTarget()}, $('#game'));
           });
         }
       }
