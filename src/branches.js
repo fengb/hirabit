@@ -182,21 +182,13 @@ var Branches = function(module) {
         return true;
       };
 
-      target.matchAll = function(rows) {
-        for(var i=0; i < rows.length; i++) {
-          if(!this.match(rows[i])) {
-            return false;
-          }
-        }
-        return true;
-      };
-
       return target;
     }
   };
 
-  module.Game = function(targetString, onChange) {
-    var target = module.Target.fromString(targetString);
+  module.Game = function(level, onChange) {
+    var par = level[1];
+    var target = module.Target.fromString(level[2]);
     var game = {height: target.length - 1};
     var directives = module.Directive.many(game.height);
     var rows = module.Row.allFrom(directives);
@@ -222,6 +214,15 @@ var Branches = function(module) {
         }
       }
       return cells;
+    };
+
+    game.complete = function() {
+      for(var i=0; i < rows.length; i++) {
+        if(!target.match(rows[i])) {
+          return false;
+        }
+      }
+      return true;
     };
 
     game.strokes = function() {
@@ -267,7 +268,7 @@ var Branches = function(module) {
           addClass(classes.join(' ')).
           appendTo($row).click(function() {
             game.toggle(cell);
-            console.log(game.strokes());
+            console.log([game.complete(), game.strokes()]);
           });
       });
 
