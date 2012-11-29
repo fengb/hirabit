@@ -237,6 +237,18 @@ var Branches = function(module) {
       return cells;
     };
 
+    game.points = function() {
+      if(!target.matchAll(rows)) {
+        return null;
+      }
+
+      var points = target.points();
+      for(var i=0; i < rows.length; i++) {
+        points -= rows[i].points();
+      }
+      return points;
+    }
+
     onChange(game);
     return game;
   };
@@ -272,6 +284,7 @@ var Branches = function(module) {
           addClass(classes.join(' ')).
           appendTo($row).click(function() {
             game.toggle(cell);
+            console.log(game.points());
           });
       });
 
