@@ -187,7 +187,6 @@ var Branches = function(module) {
   };
 
   module.Levels = function(levelsData) {
-    var strokes = {};
     var levelsDataByName = {};
     for(var i=0; i < levelsData.length; i++) {
       var name = levelsData[i].name;
@@ -195,12 +194,17 @@ var Branches = function(module) {
     }
 
     return {
-      score: function(name, score) {
-        if(score !== undefined) {
-          strokes[name] = Math.min(score, strokes[name] || 99999999);
-        } else if(name in strokes) {
-          return strokes[name] - levelsDataByName[name].par;
+      score: function(name, stroke) {
+        var levelData = levelsDataByName[name];
+        if(stroke !== undefined) {
+          levelData.stroke = Math.min(stroke, levelData.stroke || 99999999);
+        } else if(levelData.stroke) {
+          return levelData.stroke - levelData.par;
         }
+      },
+
+      scores: function() {
+        return levelsData;
       }
     };
   };
