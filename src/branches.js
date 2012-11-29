@@ -236,52 +236,54 @@ var Branches = function(module) {
     return game;
   };
 
-  module.ui = function(target, $field) {
-    $field = $field || $('<div />').appendTo('body');
-    $field.empty().addClass('branches');
+  module.ui = {
+    Game: function(level, $field) {
+      $field = $field || $('<div />').appendTo('body');
+      $field.empty().addClass('branches');
 
-    var game = module.Game(target, function(game, changedRow) {
-      var $stale = $('div.execution').addClass('stale');
-      var $execution = $('<div class="execution" />').appendTo($field);
-      var $row;
-      var lastR;
-      $.each(game.cells(), function(i, cell) {
-        if(lastR !== cell.r) {
-          $row = $('<div class="row" />').appendTo($execution);
-          lastR = cell.r;
-        }
+      var game = module.Game(level, function(game, changedRow) {
+        var $stale = $('div.execution').addClass('stale');
+        var $execution = $('<div class="execution" />').appendTo($field);
+        var $row;
+        var lastR;
+        $.each(game.cells(), function(i, cell) {
+          if(lastR !== cell.r) {
+            $row = $('<div class="row" />').appendTo($execution);
+            lastR = cell.r;
+          }
 
-        var classes = [
-          cell.description
-        ];
-        if(cell.split) {
-          classes.push('split');
-        }
-        if(cell.target === true) {
-          classes.push('target');
-        } else if(cell.target === false) {
-          classes.push('untarget');
-        }
+          var classes = [
+            cell.description
+          ];
+          if(cell.split) {
+            classes.push('split');
+          }
+          if(cell.target === true) {
+            classes.push('target');
+          } else if(cell.target === false) {
+            classes.push('untarget');
+          }
 
-        $('<span class="cell" />').
-          addClass(classes.join(' ')).
-          appendTo($row).click(function() {
-            game.toggle(cell);
-            console.log([game.complete(), game.strokes()]);
-          });
-      });
-
-      if(changedRow !== undefined) {
-        var startDrawRow = changedRow + 1;
-        var cellHeight = parseInt($('span.cell').css('height'), 10);
-        var startHeight = cellHeight * startDrawRow;
-        var fieldHeight = cellHeight * game.height;
-        var animationDuration = (game.height - startDrawRow) * 10;
-        $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
-          $stale.remove();
+          $('<span class="cell" />').
+            addClass(classes.join(' ')).
+            appendTo($row).click(function() {
+              game.toggle(cell);
+              console.log([game.complete(), game.strokes()]);
+            });
         });
-      }
-    });
+
+        if(changedRow !== undefined) {
+          var startDrawRow = changedRow + 1;
+          var cellHeight = parseInt($('span.cell').css('height'), 10);
+          var startHeight = cellHeight * startDrawRow;
+          var fieldHeight = cellHeight * game.height;
+          var animationDuration = (game.height - startDrawRow) * 10;
+          $execution.css('height', startHeight).animate({height: fieldHeight}, animationDuration, 'linear', function() {
+            $stale.remove();
+          });
+        }
+      });
+    }
   };
 
   return module;
