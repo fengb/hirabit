@@ -14,14 +14,14 @@
     <script src='src/branches.js'></script>
     <script>
       var levels = [
-        ['dot', 5, '   O   \n XXXXXXXXXXXXXXXXX ']
-      , ['hrt', 25, ' OO OO \n O OO O \n O  O  O \n  O    O  \n   O   O   \n    O  O    \n     O O     \n      OO      \n       O       \n XXXXXXXXXXXXXXXXX ']
-      , ['seg', 25, '  OOOOOOOO  \n XXXXXXXXXXXXXXXXX ']
-      , ['hex', 20, ' OOO \n O  O \n O   O \n  O  O  \n   OOO   \n XXXXXXXXXXXXXXXXX ']
-      , ['pyr', 95, ' OO \n OOOOO \n OOOOOOOO \n OOOOOOOOOOO \n OOOOOOOOOOOOOO \n XXXXXXXXXXXXXXXXX ']
-      , ['rad', 50, ' OOOOO \n O    O \n OO   OO \n OOO  OOO \n O       O \n  O      O  \n   O  O  O   \n    O OO O    \n     OOOOO     \n XXXXXXXXXXXXXXXXX ']
-      , ['sno', 70, ' OO  OO \n OO   OO \n   O  O   \n    O O    \n O   OO   O \n OOOOOOOOOOO \n  O   OO   O  \n      O O      \n      O  O      \n     OO   OO     \n      OO  OO      \n XXXXXXXXXXXXXXXXX ']
-      , ['srp', 105, ' O \n OO \n O O \n OOOO \n O   O \n OO  OO \n O O O O \n OOOOOOOO \n O       O \n OO      OO \n O O     O O \n OOOO    OOOO \n O   O   O   O \n OO  OO  OO  OO \n O O O O O O O O \n OOOOOOOOOOOOOOOO \n XXXXXXXXXXXXXXXXX ']
+        {name: 'dot', par: 5, target: '   O   \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'hrt', par: 25, target: ' OO OO \n O OO O \n O  O  O \n  O    O  \n   O   O   \n    O  O    \n     O O     \n      OO      \n       O       \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'seg', par: 25, target: '  OOOOOOOO  \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'hex', par: 20, target: ' OOO \n O  O \n O   O \n  O  O  \n   OOO   \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'pyr', par: 95, target: ' OO \n OOOOO \n OOOOOOOO \n OOOOOOOOOOO \n OOOOOOOOOOOOOO \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'rad', par: 50, target: ' OOOOO \n O    O \n OO   OO \n OOO  OOO \n O       O \n  O      O  \n   O  O  O   \n    O OO O    \n     OOOOO     \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'sno', par: 70, target: ' OO  OO \n OO   OO \n   O  O   \n    O O    \n O   OO   O \n OOOOOOOOOOO \n  O   OO   O  \n      O O      \n      O  O      \n     OO   OO     \n      OO  OO      \n XXXXXXXXXXXXXXXXX '}
+      , {name: 'srp', par: 105, target: ' O \n OO \n O O \n OOOO \n O   O \n OO  OO \n O O O O \n OOOOOOOO \n O       O \n OO      OO \n O O     O O \n OOOO    OOOO \n O   O   O   O \n OO  OO  OO  OO \n O O O O O O O O \n OOOOOOOOOOOOOOOO \n XXXXXXXXXXXXXXXXX '}
       ]
       Branches.ui(levels[7], $('#field'));
     </script>
