@@ -262,9 +262,9 @@ var Branches = function(module) {
   };
 
   module.ui = {
-    Game: function(level, $field) {
-      $field = $field || $('<div />').appendTo('body');
+    Game: function(level, $field, onClick) {
       $field.empty().addClass('branches');
+      onClick = onClick || function(){};
 
       var game = module.Game(level, function(game, changedRow) {
         var $stale = $('div.execution').addClass('stale');
@@ -293,6 +293,7 @@ var Branches = function(module) {
             addClass(classes.join(' ')).
             appendTo($row).click(function() {
               game.toggle(cell);
+              onClick(game);
             });
         });
 

@@ -19,17 +19,23 @@
       #scoreboard tbody tr {
         cursor: pointer;
       }
+
+      #strokes {
+        width: 100px;
+        margin: 0 auto 24px;
+      }
     </style>
   </head>
   <body>
     <noscript>Javascript required.  Sowwy!</noscript>
-    <div id='field'></div>
     <table id='scoreboard'>
       <thead>
         <tr><td>Level</td><td>Par</td><td>Best</td></tr>
       </thead>
       <tbody></tbody>
     </table>
+    <div id='strokes'>Strokes: <span></span></div>
+    <div id='field'></div>
     <script src='vendor/jquery.js'></script>
     <script src='src/branches.js'></script>
     <script>
@@ -53,7 +59,9 @@
           $row.click(function() {
             $scoreboard.find('tr').removeClass('active');
             $row.addClass('active');
-            Branches.ui.Game(levelsData[i], $('#field'));
+            Branches.ui.Game(levelsData[i], $('#field'), function(game) {
+              $('#strokes span').text(game.strokes());
+            });
           });
         });
       }
