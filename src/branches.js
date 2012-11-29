@@ -183,6 +183,18 @@ var Branches = function(module) {
         return true;
       };
 
+      target.points = function() {
+        var points = 0;
+        for(var i=0; i < this.length; i++) {
+          for(var j=0; j < this[i].length; j++) {
+            if(this[i][j]) {
+              points += 1;
+            }
+          }
+        }
+        return points;
+      };
+
       target.matchAll = function(rows) {
         for(var i=0; i < rows.length; i++) {
           if(!this.match(rows[i])) {
