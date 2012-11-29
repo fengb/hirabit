@@ -21,22 +21,23 @@ var Branches = function(module) {
   };
 
   module.Row = function() {
-    function Node(symbol, description, left, right) {
+    function Node(symbol, description, left, right, points) {
       Node.values[symbol] = {
         description: description,
         left: left,
         right: right,
+        points: points,
         toString: function() { return symbol; },
         isActive: function() { return left || right; }
       };
       return Node.values[symbol];
     }
     Node.values = [];
-    Node.left =    Node('<',   'left',  true, false);
-    Node.right =   Node('>',  'right', false,  true);
-    Node.branch =  Node('X', 'branch',  true,  true);
-    Node.none =    Node(' ',  'empty', false, false);
-    Node.merge =   Node('*',  'merge', false, false);
+    Node.left =    Node('<',   'left',  true, false, 1);
+    Node.right =   Node('>',  'right', false,  true, 1);
+    Node.branch =  Node('X', 'branch',  true,  true, 2);
+    Node.none =    Node(' ',  'empty', false, false, 0);
+    Node.merge =   Node('*',  'merge', false, false, 1);
 
     function init(array) {
       for(var method in instanceMethods) {
@@ -76,6 +77,14 @@ var Branches = function(module) {
           }
         }
         return init(ret);
+      },
+
+      points: function() {
+        var points = 0;
+        for(var i=0; i < this.length; i++) {
+          points += this[i].points;
+        }
+        return points - 2;
       },
 
       equivalentTo: function(that) {
