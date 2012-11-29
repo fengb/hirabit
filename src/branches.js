@@ -194,12 +194,12 @@ var Branches = function(module) {
     }
 
     return {
-      score: function(name, stroke) {
+      stroke: function(name, stroke) {
         var levelData = levelsDataByName[name];
         if(stroke !== undefined) {
           levelData.stroke = Math.min(stroke, levelData.stroke || 99999999);
-        } else if(levelData.stroke) {
-          return levelData.stroke - levelData.par;
+        } else {
+          return levelData.stroke;
         }
       },
 

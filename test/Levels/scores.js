@@ -11,7 +11,7 @@ test('in order', function() {
 });
 
 test('contain stroke information if applicable', function() {
-  this.levels.score('doe', 500);
+  this.levels.stroke('doe', 500);
   var scores = this.levels.scores();
   equal(scores[0].stroke, undefined);
   equal(scores[1].stroke, 500);
