@@ -21,13 +21,13 @@ var Branches = function(module) {
   };
 
   module.Row = function() {
-    function Node(symbol, description, left, right, active, points) {
+    function Node(symbol, description, left, right, active, strokes) {
       Node.values[symbol] = {
         description: description,
         left: left,
         right: right,
         active: active,
-        points: points,
+        strokes: strokes,
         toString: function() { return symbol; }
       };
       return Node.values[symbol];
@@ -79,12 +79,12 @@ var Branches = function(module) {
         return init(ret);
       },
 
-      points: function() {
-        var points = 0;
+      strokes: function() {
+        var strokes = 0;
         for(var i=0; i < this.length; i++) {
-          points += this[i].points;
+          strokes += this[i].strokes;
         }
-        return points - 2;
+        return strokes - 2;
       },
 
       equivalentTo: function(that) {
@@ -183,18 +183,6 @@ var Branches = function(module) {
         return true;
       };
 
-      target.points = function() {
-        var points = 0;
-        for(var i=0; i < this.length; i++) {
-          for(var j=0; j < this[i].length; j++) {
-            if(this[i][j]) {
-              points += 1;
-            }
-          }
-        }
-        return points;
-      };
-
       target.matchAll = function(rows) {
         for(var i=0; i < rows.length; i++) {
           if(!this.match(rows[i])) {
@@ -237,16 +225,12 @@ var Branches = function(module) {
       return cells;
     };
 
-    game.points = function() {
-      if(!target.matchAll(rows)) {
-        return null;
-      }
-
-      var points = target.points();
+    game.strokes = function() {
+      var strokes = 0;
       for(var i=0; i < rows.length; i++) {
-        points -= rows[i].points();
+        strokes += rows[i].strokes();
       }
-      return points;
+      return strokes;
     };
 
     onChange(game);
@@ -284,7 +268,7 @@ var Branches = function(module) {
           addClass(classes.join(' ')).
           appendTo($row).click(function() {
             game.toggle(cell);
-            console.log(game.points());
+            console.log(game.strokes());
           });
       });
 
