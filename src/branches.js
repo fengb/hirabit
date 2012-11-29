@@ -293,7 +293,6 @@ var Branches = function(module) {
             addClass(classes.join(' ')).
             appendTo($row).click(function() {
               game.toggle(cell);
-              console.log([game.complete(), game.strokes()]);
             });
         });
 

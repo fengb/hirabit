@@ -6,14 +6,34 @@
     <title>Branches of Madison County</title>
     <script>document.documentElement.className='js'</script>
     <link rel='stylesheet' media='all' href='page.css' />
+    <style>
+      #scoreboard {
+        border-collapse: collapse;
+        float: left;
+      }
+
+      #scoreboard tr.active {
+        background: #ccc;
+      }
+
+      #scoreboard tbody tr {
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <noscript>Javascript required.  Sowwy!</noscript>
     <div id='field'></div>
+    <table id='scoreboard'>
+      <thead>
+        <tr><td>Level</td><td>Par</td><td>Best</td></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
     <script src='vendor/jquery.js'></script>
     <script src='src/branches.js'></script>
     <script>
-      var levels = [
+      var levelsData = [
         {name: 'dot', par: 5, target: '   O   \n XXXXXXXXXXXXXXXXX '}
       , {name: 'hrt', par: 25, target: ' OO OO \n O OO O \n O  O  O \n  O    O  \n   O   O   \n    O  O    \n     O O     \n      OO      \n       O       \n XXXXXXXXXXXXXXXXX '}
       , {name: 'seg', par: 25, target: '  OOOOOOOO  \n XXXXXXXXXXXXXXXXX '}
@@ -22,8 +42,23 @@
       , {name: 'rad', par: 50, target: ' OOOOO \n O    O \n OO   OO \n OOO  OOO \n O       O \n  O      O  \n   O  O  O   \n    O OO O    \n     OOOOO     \n XXXXXXXXXXXXXXXXX '}
       , {name: 'sno', par: 70, target: ' OO  OO \n OO   OO \n   O  O   \n    O O    \n O   OO   O \n OOOOOOOOOOO \n  O   OO   O  \n      O O      \n      O  O      \n     OO   OO     \n      OO  OO      \n XXXXXXXXXXXXXXXXX '}
       , {name: 'srp', par: 105, target: ' O \n OO \n O O \n OOOO \n O   O \n OO  OO \n O O O O \n OOOOOOOO \n O       O \n OO      OO \n O O     O O \n OOOO    OOOO \n O   O   O   O \n OO  OO  OO  OO \n O O O O O O O O \n OOOOOOOOOOOOOOOO \n XXXXXXXXXXXXXXXXX '}
-      ]
-      Branches.ui.Game(levels[7], $('#field'));
+      ];
+
+      var levels = Branches.Levels(levelsData, localStorage);
+      function redrawScoreboard() {
+        var $scoreboard = $('#scoreboard tbody').empty();
+        var scores = levels.scores();
+        $.each(scores, function(i, score) {
+          var $row = $('<tr><td>' + i + '</td><td>' + score.par + '</td><td>' + (score.stroke || '') + '</td></tr>').appendTo($scoreboard);
+          $row.click(function() {
+            $scoreboard.find('tr').removeClass('active');
+            $row.addClass('active');
+            Branches.ui.Game(levelsData[i], $('#field'));
+          });
+        });
+      }
+      redrawScoreboard();
+
     </script>
   </body>
 </html>
