@@ -196,6 +196,10 @@ var Branches = function(module) {
     }
 
     return {
+      level: function(name) {
+        return levelsDataByName[name];
+      },
+
       stroke: function(name, stroke) {
         var levelData = levelsDataByName[name];
         if(stroke !== undefined) {

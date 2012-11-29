@@ -37,6 +37,7 @@
     <div id='strokes'>Strokes: <span></span></div>
     <div id='field'></div>
     <script src='vendor/jquery.js'></script>
+    <script src='vendor/jquery.ba-hashchange.js'></script>
     <script src='src/branches.js'></script>
     <script>
       var levelsData = [
@@ -55,28 +56,39 @@
         var $scoreboard = $('#scoreboard tbody').empty();
         var scores = levels.scores();
         $.each(scores, function(i, score) {
-          var $row = $('<tr><td>' + i + '</td><td>' + score.par + '</td><td>' + (score.stroke || '') + '</td></tr>').appendTo($scoreboard);
+          var $row = $('<tr id="' + score.name + '"><td>' + i + '</td><td>' + score.par + '</td><td>' + (score.stroke || '') + '</td></tr>').appendTo($scoreboard);
           if(score.name == activeLevel) {
             $row.addClass('active');
           }
           $row.click(function() {
-            if($row.hasClass('active')) {
-              return;
-            }
-            $scoreboard.find('tr').removeClass('active');
-            $row.addClass('active');
-            Branches.ui.Game(levelsData[i], $('#field'), function(game) {
-              $('#strokes span').text(game.strokes());
-              if(game.complete()) {
-                levels.stroke(game.name, game.strokes());
-                redrawScoreboard(game.name);
-              }
-            });
+            location.hash = score.name;
           });
         });
       }
       redrawScoreboard();
 
+      $(window).hashchange(function() {
+        var name = location.hash.replace('#', '');
+        var $row = $(location.hash);
+        if($row.hasClass('active')) {
+          return;
+        }
+        $('#scoreboard tr').removeClass('active');
+        $row.addClass('active');
+        Branches.ui.Game(levels.level(name), $('#field'), function(game) {
+          $('#strokes span').text(game.strokes());
+          if(game.complete()) {
+            levels.stroke(game.name, game.strokes());
+            redrawScoreboard(game.name);
+          }
+        });
+      });
+
+      if(location.hash) {
+        $(window).hashchange();
+      } else {
+        location.hash = levelsData[0].name;
+      }
     </script>
   </body>
 </html>
