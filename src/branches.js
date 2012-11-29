@@ -213,7 +213,7 @@ var Branches = function(module) {
 
   module.Game = function(level, onChange) {
     var target = module.Target.fromString(level.target);
-    var game = {height: target.length - 1};
+    var game = {height: target.length - 1, name: level.name};
     var directives = module.Directive.many(game.height);
     var rows = module.Row.allFrom(directives);
     onChange = onChange || function(){};

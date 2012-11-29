@@ -51,16 +51,26 @@
       ];
 
       var levels = Branches.Levels(levelsData, localStorage);
-      function redrawScoreboard() {
+      function redrawScoreboard(activeLevel) {
         var $scoreboard = $('#scoreboard tbody').empty();
         var scores = levels.scores();
         $.each(scores, function(i, score) {
           var $row = $('<tr><td>' + i + '</td><td>' + score.par + '</td><td>' + (score.stroke || '') + '</td></tr>').appendTo($scoreboard);
+          if(score.name == activeLevel) {
+            $row.addClass('active');
+          }
           $row.click(function() {
+            if($row.hasClass('active')) {
+              return;
+            }
             $scoreboard.find('tr').removeClass('active');
             $row.addClass('active');
             Branches.ui.Game(levelsData[i], $('#field'), function(game) {
               $('#strokes span').text(game.strokes());
+              if(game.complete()) {
+                levels.stroke(game.name, game.strokes());
+                redrawScoreboard(game.name);
+              }
             });
           });
         });
