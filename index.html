@@ -110,7 +110,17 @@
           if(game.complete()) {
             if(levels.stroke(game.name, game.strokes())) {
               var $scoreCell = $('#scoreboard tr.active td:nth-child(3)');
-              $scoreCell.text(game.strokes());
+              var originCoord = $gameStrokes.position('body');
+              originCoord.top -= 8;
+              originCoord.left -= 12;
+              var targetCoord = $scoreCell.position('body');
+              var $scoreAnimation = $('<span>' + game.strokes() + '</span>').appendTo('body');
+              $scoreAnimation.css({position: 'absolute', textAlign: 'right', width: $gameStrokes.width()});
+              $scoreAnimation.css(originCoord);
+              $scoreAnimation.animate(targetCoord, 1000, function() {
+                $scoreCell.text(game.strokes());
+                $scoreAnimation.remove();
+              });
             }
           }
         });
