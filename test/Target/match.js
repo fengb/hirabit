@@ -1,7 +1,7 @@
-module('Branches.Target:match()', {
+module('Hirabit.Target:match()', {
   setup: function() {
     function runMatch(targetString, activeString) {
-      var target = Branches.Target.fromString(targetString);
+      var target = Hirabit.Target.fromString(targetString);
       var objs = [];
       for(var i=0; i < activeString.length; i++) {
         objs[i] = {active: activeString[i] !== ' '};

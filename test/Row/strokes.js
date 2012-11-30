@@ -1,7 +1,7 @@
-module('Branches.Row:strokes()', {
+module('Hirabit.Row:strokes()', {
   setup: function() {
     this.testStrokes = function(rowString, strokes) {
-      var row = Branches.Row.fromString(rowString);
+      var row = Hirabit.Row.fromString(rowString);
       equal(row.strokes(), strokes);
     };
   }

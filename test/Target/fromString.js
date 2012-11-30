@@ -1,7 +1,7 @@
-module('Branches.Target.fromstring()', {
+module('Hirabit.Target.fromstring()', {
   setup: function() {
     this.equalStringValues = function(targetString, values) {
-      var target = Branches.Target.fromString(targetString);
+      var target = Hirabit.Target.fromString(targetString);
       for(var k in values) {
         equal(target[k].length, values[k].length);
         for(var i=0; i < values[k].length; i++) {

@@ -1,14 +1,14 @@
-module('Branches.Row.fromString()', {
+module('Hirabit.Row.fromString()', {
   setup: function() {
     this.equalNodeDescription = function(nodeString, description) {
-      var row = Branches.Row.fromString(nodeString);
+      var row = Hirabit.Row.fromString(nodeString);
       equal(row[0].description, description);
     };
   }
 });
 
 test('correct toString() representation', function() {
-  var rows = Branches.Row.fromString('<>* X');
+  var rows = Hirabit.Row.fromString('<>* X');
   equal(rows.toString(), '<>* X');
 });
 

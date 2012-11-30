@@ -1,6 +1,6 @@
 module('Branch.Levels:scores()', {
   setup: function() {
-    this.levels = Branches.Levels([{name: 'bob', par: 0}, {name: 'doe', par: 0}]);
+    this.levels = Hirabit.Levels([{name: 'bob', par: 0}, {name: 'doe', par: 0}]);
   }
 });
 

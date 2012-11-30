@@ -1,7 +1,7 @@
-module('Branches.Levels:stroke()', {
+module('Hirabit.Levels:stroke()', {
   setup: function() {
     this.levelsData = [{name: 'bob', par: 0}, {name: 'doe', par: 5}];
-    this.levels = Branches.Levels(this.levelsData);
+    this.levels = Hirabit.Levels(this.levelsData);
   }
 });
 
@@ -32,7 +32,7 @@ test('stroke returns update status', function() {
 
 test('persists stroke information', function() {
   var strokes = {};
-  var levels = Branches.Levels(this.levelsData, strokes);
+  var levels = Hirabit.Levels(this.levelsData, strokes);
 
   deepEqual(strokes, {});
   levels.stroke('bob', 4);
@@ -40,6 +40,6 @@ test('persists stroke information', function() {
 });
 
 test('loads stroke information', function() {
-  var levels = Branches.Levels(this.levelsData, {doe: 18});
+  var levels = Hirabit.Levels(this.levelsData, {doe: 18});
   equal(levels.stroke('doe'), 18);
 });

@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <title>Branches Editor</title>
+    <title>Hirabit Editor</title>
     <script>document.documentElement.className='js'</script>
     <link rel='stylesheet' media='all' href='page.css' />
     <style>
@@ -33,7 +33,7 @@
     <div id='game'></div>
     <textarea></textarea>
     <script src='vendor/jquery.js'></script>
-    <script src='src/branches.js'></script>
+    <script src='src/hirabit.js'></script>
     <script>
       function allSpaces(line) {
         for(var i=0; i < line.length; i++) {
@@ -74,7 +74,7 @@
             $(evt.target).toggleClass('target');
 
             $('textarea').val(editorTarget().replace(/\n/g, '\\n'));
-            Branches.ui.Game({target: editorTarget()}, $('#game'));
+            Hirabit.ui.Game({target: editorTarget()}, $('#game'));
           });
         }
       }

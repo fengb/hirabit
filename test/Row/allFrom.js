@@ -1,11 +1,11 @@
-module('Branches.Row.allFrom()', {
+module('Hirabit.Row.allFrom()', {
   setup: function() {
     this.allFromBranchStrings = function(branchStrings) {
       var directives = [];
       for(var i=0; i < branchStrings.length; i++) {
-        directives[i] = Branches.Directive.fromString(branchStrings[i]);
+        directives[i] = Hirabit.Directive.fromString(branchStrings[i]);
       }
-      return Branches.Row.allFrom(directives);
+      return Hirabit.Row.allFrom(directives);
     };
   }
 });

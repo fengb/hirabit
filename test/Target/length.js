@@ -1,7 +1,7 @@
-module('Branches.Target:length', {
+module('Hirabit.Target:length', {
   setup: function() {
     this.testLength = function(targetString, length) {
-      var target = Branches.Target.fromString(targetString);
+      var target = Hirabit.Target.fromString(targetString);
       equal(target.length, length);
     };
   }

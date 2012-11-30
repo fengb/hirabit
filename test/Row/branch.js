@@ -1,8 +1,8 @@
-module('Branches.Row:branch()', {
+module('Hirabit.Row:branch()', {
   setup: function() {
     this.equalBranchedRow = function(rowString, branchString, expected) {
-      var row = Branches.Row.fromString(rowString);
-      var directive = Branches.Directive.fromString(branchString);
+      var row = Hirabit.Row.fromString(rowString);
+      var directive = Hirabit.Directive.fromString(branchString);
       equal(row.branch(directive).toString(), expected);
     };
   }

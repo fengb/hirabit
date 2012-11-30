@@ -1,4 +1,4 @@
-var Branches = function(module) {
+var Hirabit = function(module) {
   module.Directive = {
     fromString: function(string) {
       var ret = [];

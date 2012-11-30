@@ -1,7 +1,7 @@
-module('Branches.Row:next()', {
+module('Hirabit.Row:next()', {
   setup: function() {
     this.equalNextRow = function(baseRowString, expected) {
-      var row = Branches.Row.fromString(baseRowString);
+      var row = Hirabit.Row.fromString(baseRowString);
       equal(row.next().toString(), expected);
     };
   }
