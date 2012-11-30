@@ -27,6 +27,13 @@ span.cell {
   cursor: pointer;
 }
 
+span.cell.split {
+  -webkit-box-shadow: inset 0 0 8px #000;
+  -moz-box-shadow: inset 0 0 8px #000;
+  -o-box-shadow: inset 0 0 8px #000;
+  box-shadow: inset 0 0 8px #000;
+}
+
 span.cell:hover {
   background: #eee;
 }
