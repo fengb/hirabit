@@ -24,6 +24,12 @@ test('stroke only updates with lower values', function() {
   equal(this.levels.stroke('bob'), 15);
 });
 
+test('stroke returns update status', function() {
+  ok(this.levels.stroke('bob', 20));
+  ok(!this.levels.stroke('bob', 21));
+  ok(this.levels.stroke('bob', 19));
+});
+
 test('persists stroke information', function() {
   var strokes = {};
   var levels = Branches.Levels(this.levelsData, strokes);

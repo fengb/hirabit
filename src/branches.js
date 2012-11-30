@@ -203,7 +203,12 @@ var Branches = function(module) {
       stroke: function(name, stroke) {
         var levelData = levelsDataByName[name];
         if(stroke !== undefined) {
-          strokes[name] = levelData.stroke = Math.min(stroke, levelData.stroke || 99999999);
+          if(stroke < (levelData.stroke || 999999)) {
+            strokes[name] = levelData.stroke = stroke;
+            return true;
+          } else {
+            return false;
+          }
         } else {
           return levelData.stroke;
         }
