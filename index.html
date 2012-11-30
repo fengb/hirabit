@@ -19,6 +19,12 @@
       #strokes span {
         display: inline-block;
         width: 30px;
+        text-align: right;
+      }
+
+      #strokes span.complete {
+        font-weight: bold;
+        color: #4b5;
       }
 
       #scoreboard {
@@ -107,7 +113,10 @@
         $row.addClass('active');
         Branches.ui.Game(levels.level(name), $('#field'), function(game) {
           $gameStrokes.text(game.strokes());
-          if(game.complete()) {
+          if(!game.complete()) {
+            $gameStrokes.removeClass('complete');
+          } else {
+            $gameStrokes.addClass('complete');
             if(levels.stroke(game.name, game.strokes())) {
               var $scoreCell = $('#scoreboard tr.active td:nth-child(3)');
               var originCoord = $gameStrokes.position('body');
