@@ -1,0 +1,28 @@
+{
+  "name": "hirabit",
+  "title": "Hirabit",
+  "description": "Reusable, declarative HTML5 widgets",
+  "author": "Benjamin Feng",
+  "version": "0.1.0dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fengb/hirabit"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/fengb/hirabit/blob/master/LICENSE"
+    }
+  ],
+  "engines": {
+    "node": "~0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt":                "~0.4.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-qunit":  "~0.2.1"
+  }
+}
