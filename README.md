@@ -1,4 +1,4 @@
-Hirabit
+Hirabit [![Build Status](https://secure.travis-ci.org/fengb/hirabit.png)](http://travis-ci.org/fengb/hirabit)
 ======
 Hirabit is a puzzle game where you branch and merge lines to activate pieces on a grid.
 
